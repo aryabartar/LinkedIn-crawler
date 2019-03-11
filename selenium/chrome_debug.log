@@ -1,0 +1,9 @@
+[2413:2413:0311/213535.283667:WARNING:password_store_factory.cc(261)] Using basic (unencrypted) store for password storage. See https://chromium.googlesource.com/chromium/src/+/master/docs/linux_password_storage.md for more information about password storage options.
+[2413:2413:0311/213539.876511:INFO:CONSOLE(8)] "SW registered", source: https://www.google.com/_/chrome/newtab?ie=UTF-8 (8)
+[2413:2413:0311/213539.876631:INFO:CONSOLE(8)] "SW registered", source: https://www.google.com/_/chrome/newtab?ie=UTF-8 (8)
+[2413:2462:0311/213553.901507:ERROR:nss_ocsp.cc(582)] No URLRequestContext for NSS HTTP handler. host: crl4.digicert.com
+[2413:2462:0311/213553.902427:ERROR:nss_ocsp.cc(582)] No URLRequestContext for NSS HTTP handler. host: ocsp.digicert.com
+[2413:2462:0311/213553.902455:ERROR:nss_ocsp.cc(582)] No URLRequestContext for NSS HTTP handler. host: ocsp.digicert.com
+[2413:2462:0311/213553.902478:ERROR:nss_ocsp.cc(582)] No URLRequestContext for NSS HTTP handler. host: crl4.digicert.com
+[2413:2413:0311/213553.917604:WARNING:pref_notifier_impl.cc(23)] Pref observer found at shutdown.
+[2413:2413:0311/213553.917648:WARNING:pref_notifier_impl.cc(23)] Pref observer found at shutdown.
