@@ -141,3 +141,4 @@ JavaScript error: resource://gre/modules/WebProgressChild.jsm, line 58: TypeErro
 JavaScript warning: https://static.licdn.com/sc/h/br/541gop8hv8nts3bhj9zx2j2x3, line 6496: unreachable code after return statement
 [Parent 7653, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
 1552328200477	Marionette	INFO	Stopped listening on port 37923
+1552328586480	Marionette	INFO	Stopped listening on port 38843
