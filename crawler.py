@@ -25,7 +25,10 @@ def open_linkedin(driver):
 
 
 def open_amirkabir_alumni(driver):
-    pass
+    aut_usa_url = "https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0"
+    driver.get(aut_usa_url)
+    print(driver.page_source)
+
 
 driver = webdriver.Firefox()
 open_linkedin(driver)
