@@ -6,7 +6,7 @@ from selenium import webdriver
 
 
 def random_wait():
-    random = randint(1, 5)
+    random = randint(1, 3)
     time.sleep(random)
 
 
@@ -24,13 +24,28 @@ def open_linkedin(driver):
     driver.get("https://www.linkedin.com/")
 
 
-def open_amirkabir_alumni(driver):
+def get_amirkabir_alumni_html(driver):
     aut_usa_url = "https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0"
     driver.get(aut_usa_url)
-    print(driver.page_source)
+    return driver.page_source
+
+
+def find_names_from_main_page(html):
+    names_list = []
+
+    html = html.replace("\n", " ").split(" ")
+    while "lt-line-clamp--single-line" in html:
+        index = html.index(
+            'lt-line-clamp--single-line')
+        name = "{firstname} {lastname}".format(firstname=html[index + 3], lastname=html[index + 4])
+        del html[index]
+        names_list.append(name)
+
+    return names_list
 
 
 driver = webdriver.Firefox()
 open_linkedin(driver)
 random_wait()
-open_amirkabir_alumni(driver)
+amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
+print(find_names_from_main_page(amirkabir_alumni_html))
