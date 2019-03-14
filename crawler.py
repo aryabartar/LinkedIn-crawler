@@ -16,10 +16,13 @@ def find_index_in_array(array, search_text):
 
 def find_number_of_repeats(array, search_text):
     count = 0
-    for element in array:
-        if search_text in element:
+    indexes = []
+    for i in range(0, len(array)):
+        if search_text in array[i]:
             count += 1
-    return count
+            indexes.append(i)
+
+    return count, indexes
 
 
 def write_to_file(path, text):
@@ -159,7 +162,32 @@ def get_person_information(html_path):
     except:
         website = None
 
-    print(name, " | ", email, " | ", phone, " | ", website)
+    try:
+        universities = []
+        university_count, university_temp_indexes = find_number_of_repeats(html_array,
+                                                                           'pv-entity__school-name t-16 t-black t-bold')
+        degree_repeat, degree_repeat_temp_indexes = find_number_of_repeats(html_array,
+                                                                           'pv-entity__secondary-title pv-entity__degree-name pv-entity__secondary-title t-14 t-black t-normal')
+        field_of_study_repeat, field_of_study_temp_indexes = find_number_of_repeats(html_array,
+                                                                                    'pv-entity__secondary-title pv-entity__fos pv-entity__secondary-title t-14 t-black--light t-normal')
+        if university_count == degree_repeat == field_of_study_repeat:
+            for i in range(0, university_count):
+                university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
+                degree = remove_first_spaces(html_array[degree_repeat_temp_indexes[i] + 9])
+                field = remove_first_spaces(html_array[field_of_study_temp_indexes[i] + 9])
+                university_string = "University: " + university + "| Degree: " + degree + "| Field: " + field
+                universities.append(university_string)
+
+        else:
+            for i in range(0, university_count):
+                university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
+                university_string = "University: " + university
+                universities.append(university_string)
+
+    except:
+        pass
+
+    print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
 
 
 driver = webdriver.Firefox()
@@ -168,6 +196,6 @@ random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
 # print(find_names_from_main_page(amirkabir_alumni_html))
 get_and_save_profile_html(driver,
-                          "https://www.linkedin.com/in/mehrdadh/")
+                          "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
 
 get_person_information("people-htmls/test.html")
