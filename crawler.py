@@ -51,9 +51,11 @@ def find_names_from_main_page(html):
 
 
 def get_and_save_profile_html(driver, link):
+    """ Opens link page and saves FULL htm (with information in determined place."""
+    link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
     page_source = driver.page_source
-    f = open("people-html", "w")
+    f = open("people-htmls/test.html", "w")
     f.write(page_source)
     f.close()
 
@@ -61,6 +63,7 @@ def get_and_save_profile_html(driver, link):
 driver = webdriver.Firefox()
 open_linkedin(driver)
 random_wait()
-amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
+# amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
 # print(find_names_from_main_page(amirkabir_alumni_html))
-get_and_save_profile_html(driver, "https://www.linkedin.com/in/payamkhodaparast/")
+get_and_save_profile_html(driver,
+                          "https://www.linkedin.com/in/nastaran-nourbakhsh-860a6216b/")
