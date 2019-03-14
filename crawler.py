@@ -5,6 +5,12 @@ from random import randint
 from selenium import webdriver
 
 
+def write_to_file(path, text):
+    f = open(path, "w")
+    f.write(text)
+    f.close()
+
+
 def random_wait():
     random = randint(1, 3)
     time.sleep(random)
@@ -55,9 +61,11 @@ def get_and_save_profile_html(driver, link):
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
     page_source = driver.page_source
-    f = open("people-htmls/test.html", "w")
-    f.write(page_source)
-    f.close()
+
+    html_address = "people-htmls/test.html"
+    write_to_file("people-htmls/test.html", page_source)
+
+    return html_address
 
 
 driver = webdriver.Firefox()
