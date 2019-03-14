@@ -329,3 +329,272 @@ IPDL protocol error: Handler returned error code!
 [Parent 19869, Gecko_IOThread] WARNING: pipe error (77): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
 [Parent 19869, Gecko_IOThread] WARNING: pipe error (96): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
 1552332768277	Marionette	INFO	Stopped listening on port 44839
+
+(firefox:19109): GLib-GObject-WARNING **: 23:13:59.565: invalid (NULL) pointer instance
+
+(firefox:19109): GLib-GObject-CRITICAL **: 23:13:59.565: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(firefox:19109): GLib-GObject-WARNING **: 23:13:59.565: invalid (NULL) pointer instance
+
+(firefox:19109): GLib-GObject-CRITICAL **: 23:13:59.565: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+1552376969663	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.IJAcgBrVJE3a"
+1552376971072	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552376971072	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552376973340	Marionette	INFO	Listening on port 38153
+1552376973397	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 4022, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 4022, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: NetworkError when attempting to fetch resource..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:188:13
+
+1552377001421	Marionette	INFO	Stopped listening on port 38153
+1552377020065	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.c3nqLditYr1n"
+1552377020570	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552377020570	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552377022572	Marionette	INFO	Listening on port 36249
+1552377022673	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 4461, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 4461, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: NetworkError when attempting to fetch resource..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:188:13
+
+
+(firefox:4461): GLib-GObject-WARNING **: 13:00:20.872: invalid (NULL) pointer instance
+
+(firefox:4461): GLib-GObject-CRITICAL **: 13:00:20.872: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(firefox:4461): GLib-GObject-WARNING **: 13:00:20.872: invalid (NULL) pointer instance
+
+(firefox:4461): GLib-GObject-CRITICAL **: 13:00:20.872: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+1552387283775	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.JGcoBESPKL0v"
+1552387284543	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552387284543	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552387286115	Marionette	INFO	Listening on port 44345
+1552387286194	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 3921, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 3921, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: NetworkError when attempting to fetch resource..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:188:13
+
+1552388255068	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.R0h1at2M7hZo"
+1552388255530	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552388255530	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552388256853	Marionette	INFO	Listening on port 45683
+1552388256881	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 4877, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/5e2utow6f418pcbf87jzdmfx5, line 6482: unreachable code after return statement
+[Parent 4877, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: NetworkError when attempting to fetch resource..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:188:13
+
+
+(firefox:3921): GLib-GObject-WARNING **: 14:49:16.992: invalid (NULL) pointer instance
+
+(firefox:4877): GLib-GObject-WARNING **: 14:49:16.992: invalid (NULL) pointer instance
+
+(firefox:3921): GLib-GObject-CRITICAL **: 14:49:16.992: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(firefox:4877): GLib-GObject-CRITICAL **: 14:49:16.992: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(firefox:3921): GLib-GObject-WARNING **: 14:49:16.992: invalid (NULL) pointer instance
+
+(firefox:4877): GLib-GObject-WARNING **: 14:49:16.992: invalid (NULL) pointer instance
+
+(firefox:3921): GLib-GObject-CRITICAL **: 14:49:16.992: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+(firefox:4877): GLib-GObject-CRITICAL **: 14:49:16.992: g_signal_handler_disconnect: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+1552550963496	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.uD9Dq2cDUmGt"
+1552550964288	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552550964289	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552550965861	Marionette	INFO	Listening on port 40881
+1552550965909	Marionette	WARN	TLS certificate errors will be ignored for this session
+1552551093334	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.fn02OGNCNA22"
+1552551093721	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552551093722	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552551095125	Marionette	INFO	Listening on port 46035
+1552551095143	Marionette	WARN	TLS certificate errors will be ignored for this session
+[Parent 24089, Gecko_IOThread] WARNING: pipe error (108): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 24089, Gecko_IOThread] WARNING: pipe error (77): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+1552551182485	Marionette	INFO	Stopped listening on port 46035
+1552551182906	Marionette	INFO	Stopped listening on port 40881
+1552551184518	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.HoqDT9S1uFJp"
+1552551184857	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552551184857	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552551186163	Marionette	INFO	Listening on port 40709
+1552551186226	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+(/usr/lib/firefox/firefox:24757): dconf-WARNING **: 11:43:37.986: Unable to open /var/lib/flatpak/exports/share/dconf/profile/user: Permission denied
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: NetworkError when attempting to fetch resource..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:188:13
+
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+JavaScript error: https://static.licdn.com/sc/h/br/9tfzf1lqp8bajtgaz27f4wo8v, line 562: Error: Ember Data Request POST /voyager/api/onboarding/onboardingStep?action=markStepWithUserAction returned a 400
+Payload (application/json)
+[object Object]
+[{"status":400}]
+
+(/usr/lib/firefox/firefox:24869): dconf-WARNING **: 12:14:54.191: Unable to open /var/lib/flatpak/exports/share/dconf/profile/user: Permission denied
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/8606frjfs1r73zdsgp1vegaun, line 737: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8606frjfs1r73zdsgp1vegaun, line 737: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8606frjfs1r73zdsgp1vegaun, line 737: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+JavaScript warning: https://static.licdn.com/sc/h/br/8606frjfs1r73zdsgp1vegaun, line 737: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8606frjfs1r73zdsgp1vegaun, line 737: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8606frjfs1r73zdsgp1vegaun, line 737: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+[Parent 24584, Gecko_IOThread] WARNING: pipe error (123): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 7650: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 7650: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 7650: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 7650: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 7650: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 7650: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript error: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 10432: SecurityError: Permission denied to access property "reportAd" on cross-origin object
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+[Parent 24584, Gecko_IOThread] WARNING: pipe error (204): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 24584, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+1552554110603	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.aW1vWcHBvP1F"
+1552554111093	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552554111093	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552554112408	Marionette	INFO	Listening on port 45115
+1552554112419	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+(/usr/lib/firefox/firefox:4310): dconf-WARNING **: 12:32:11.687: Unable to open /var/lib/flatpak/exports/share/dconf/profile/user: Permission denied
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 4134, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 4134, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 4134, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x5F0029,name=PNecko::Msg_RemoveRequestContext) Channel closing: too late to send/recv, messages will be lost
+
+[Child 4310, Chrome_ChildThread] WARNING: pipe error (3): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1552554257661	Marionette	INFO	Stopped listening on port 45115
+[Parent 24584, Gecko_IOThread] WARNING: pipe error (156): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 24584, Gecko_IOThread] WARNING: pipe error (175): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 24584, Gecko_IOThread] WARNING: pipe error (94): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 24584, Gecko_IOThread] WARNING: pipe error (77): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 24584, Gecko_IOThread] WARNING: pipe error (134): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+1552554257838	Marionette	INFO	Stopped listening on port 40709
+1552554258936	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.tUUOkMakw8ZD"
+1552554259268	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552554259268	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552554260470	Marionette	INFO	Listening on port 40047
+1552554260551	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 4667, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+[Parent 4667, Gecko_IOThread] WARNING: pipe error (124): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+1552554304064	Marionette	INFO	Stopped listening on port 40047
+1552554348921	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.kCKFVSkdzFbs"
+1552554349274	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552554349274	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552554350570	Marionette	INFO	Listening on port 34007
+1552554350637	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 5529, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 5529, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Refused to create native OpenGL context because of blacklist entry: 
+JavaScript warning: https://static.licdn.com/sc/h/br/8lyccmdngpr85l0rxhqmncgsa, line 1156: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Refused to create native OpenGL context because of blacklist entry: 
+* Exhausted GL driver options.
+JavaScript warning: https://static.licdn.com/sc/h/br/3lz96tkz1eekw0bd759wroh36, line 6502: unreachable code after return statement
+[Parent 5529, Gecko_IOThread] WARNING: pipe error: Broken pipe: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 718
+1552554596962	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.7dUDWtJtm7Fs"
+1552554597483	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552554597483	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552554598344	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.bXP7n41oPMHq"
+1552554598945	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: resource://pdf.js/
+1552554598945	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid host permission: about:reader*
+1552554599011	Marionette	INFO	Listening on port 43041
+1552554599087	Marionette	WARN	TLS certificate errors will be ignored for this session
+1552554600333	Marionette	INFO	Listening on port 32851
+1552554600360	Marionette	WARN	TLS certificate errors will be ignored for this session
+[Parent 6442, Gecko_IOThread] WARNING: pipe error (91): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 6260, Gecko_IOThread] WARNING: pipe error (125): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 6442, Gecko_IOThread] WARNING: pipe error (77): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 6260, Gecko_IOThread] WARNING: pipe error (77): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 5529, Gecko_IOThread] WARNING: pipe error (77): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 5529, Gecko_IOThread] WARNING: pipe error (107): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 5529, Gecko_IOThread] WARNING: pipe error (111): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+[Parent 5529, Gecko_IOThread] WARNING: pipe error (143): Connection reset by peer: file /build/firefox-DVGW0d/firefox-65.0.1+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 349
+JavaScript error: resource://gre/modules/Sqlite.jsm, line 841: Error: Connection is not open.
+1552554602777	Marionette	INFO	Stopped listening on port 34007
+1552554602793	Marionette	INFO	Stopped listening on port 43041
+1552554602809	Marionette	INFO	Stopped listening on port 32851

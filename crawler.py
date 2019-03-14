@@ -20,6 +20,8 @@ def open_linkedin(driver):
             driver.add_cookie(cookie)
 
     driver.get("https://www.linkedin.com/")
+    # restore_cookie(driver)
+    # time.sleep(100)
     restore_cookie(driver)
     driver.get("https://www.linkedin.com/")
 
@@ -27,7 +29,11 @@ def open_linkedin(driver):
 def get_amirkabir_alumni_html(driver):
     aut_usa_url = "https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0"
     driver.get(aut_usa_url)
-    return driver.page_source
+    page_resource = driver.page_source
+    f = open("alumni-htmls/Amirkabir.html", "w")
+    f.write(page_resource)
+    f.close()
+    return page_resource
 
 
 def find_names_from_main_page(html):
@@ -44,8 +50,17 @@ def find_names_from_main_page(html):
     return names_list
 
 
+def get_and_save_profile_html(driver, link):
+    driver.get(link)
+    page_source = driver.page_source
+    f = open("people-html", "w")
+    f.write(page_source)
+    f.close()
+
+
 driver = webdriver.Firefox()
 open_linkedin(driver)
 random_wait()
 amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
-print(find_names_from_main_page(amirkabir_alumni_html))
+# print(find_names_from_main_page(amirkabir_alumni_html))
+get_and_save_profile_html(driver, "https://www.linkedin.com/in/payamkhodaparast/")
