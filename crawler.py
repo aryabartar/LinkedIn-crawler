@@ -7,11 +7,19 @@ from selenium import webdriver
 SPECIAL_CHARACTER = "/|||\\"  # This special notation is used to replace given characters
 
 
-def find_index_in_array(array, search):
+def find_index_in_array(array, search_text):
     for element in array:
-        if search in element:
+        if search_text in element:
             return array.index(element)
     return None
+
+
+def find_number_of_repeats(array, search_text):
+    count = 0
+    for element in array:
+        if search_text in element:
+            count += 1
+    return count
 
 
 def write_to_file(path, text):
@@ -100,7 +108,6 @@ def get_person_information(html_path):
         for i in range(0, len(website)):
             if website[i] == "&":
                 break
-            print(website[i])
 
         return website[:i]
 
@@ -155,12 +162,12 @@ def get_person_information(html_path):
     print(name, " | ", email, " | ", phone, " | ", website)
 
 
-# driver = webdriver.Firefox()
-# open_linkedin(driver)
-# random_wait()
+driver = webdriver.Firefox()
+open_linkedin(driver)
+random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
 # print(find_names_from_main_page(amirkabir_alumni_html))
-# get_and_save_profile_html(driver,
-#                           "https://www.linkedin.com/in/forough-msalehi/")
+get_and_save_profile_html(driver,
+                          "https://www.linkedin.com/in/mehrdadh/")
 
 get_person_information("people-htmls/test.html")
