@@ -4,6 +4,8 @@ import pickle
 from random import randint
 from selenium import webdriver
 
+SPECIAL_CHARACTER = "/|||\\"  # This special notation is used to replace given characters
+
 
 def write_to_file(path, text):
     f = open(path, "w")
@@ -76,8 +78,28 @@ def get_and_save_profile_html(driver, link):
 
 
 def get_person_information(html_path):
+    def make_name_pretty(name):
+        i = 0
+        for i in range(0, len(name)):
+            if name[i] != " ":
+                break
+        name = name[i:]
+        return name
+
     html = read_file(html_path)
-    print(html)
+    html = html.replace(">", SPECIAL_CHARACTER)
+    html = html.replace("<", SPECIAL_CHARACTER)
+    html = html.replace("\n", SPECIAL_CHARACTER)
+
+    html = html.replace('h1 class="pv-top-card-section__name inline t-24 t-black t-normal"', "craw_person_name")
+
+
+    html_array = html.split(SPECIAL_CHARACTER)
+
+    name_temp_index = html_array.index('craw_person_name')
+    name = html_array[name_temp_index + 2]
+    name = make_name_pretty(name)
+
 
 
 # driver = webdriver.Firefox()
