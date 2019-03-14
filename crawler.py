@@ -78,13 +78,22 @@ def get_and_save_profile_html(driver, link):
 
 
 def get_person_information(html_path):
-    def make_name_pretty(name):
+    def remove_first_spaces(text):
+        # removes name spaces
         i = 0
-        for i in range(0, len(name)):
-            if name[i] != " ":
+        for i in range(0, len(text)):
+            if text[i] != " ":
                 break
-        name = name[i:]
+        text = text[i:]
+        return text
+
+    def make_name_pretty(name):
+        name = remove_first_spaces(name)
         return name
+
+    def make_email_pretty(email):
+        email = remove_first_spaces(email)
+        return email
 
     html = read_file(html_path)
     html = html.replace(">", SPECIAL_CHARACTER)
@@ -92,7 +101,9 @@ def get_person_information(html_path):
     html = html.replace("\n", SPECIAL_CHARACTER)
 
     html = html.replace('h1 class="pv-top-card-section__name inline t-24 t-black t-normal"', "craw_person_name")
-
+    html = html.replace(
+        'a href="mailto:nastaranour73@gmail.com" class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener noreferrer"',
+        "craw_person_email")
 
     html_array = html.split(SPECIAL_CHARACTER)
 
@@ -100,7 +111,11 @@ def get_person_information(html_path):
     name = html_array[name_temp_index + 2]
     name = make_name_pretty(name)
 
+    email_temp_index = html_array.index('craw_person_email')
+    email = html_array[email_temp_index + 2]
+    email = make_email_pretty(email)
 
+    print(email)
 
 # driver = webdriver.Firefox()
 # open_linkedin(driver)
