@@ -94,6 +94,10 @@ def get_person_information(html_path):
         text = text[i:]
         return text
 
+    def make_phone_pretty(phone):
+        phone = remove_first_spaces(phone)
+        return phone
+
     def make_name_pretty(name):
         name = remove_first_spaces(name)
         return name
@@ -122,7 +126,15 @@ def get_person_information(html_path):
     except:
         email = None
 
-    print(name, email)
+    try:
+        phone_temp_index = find_index_in_array(html_array,
+                                               'span class="t-14 t-black t-normal"')
+        phone = html_array[phone_temp_index + 1]
+        phone = make_phone_pretty(phone)
+    except:
+        phone = None
+
+    print(name, " | ", email, " | ", phone)
 
 
 driver = webdriver.Firefox()
