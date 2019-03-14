@@ -71,12 +71,27 @@ def get_amirkabir_alumni_html(driver):
 
 
 def find_names_from_main_page(path):
-    html = read_file(path)
+    def make_name_pretty(name):
+        name = name.replace("\n", " ")
+        for i in range(0, len(name)):
+            if name[i] != ' ':
+                break
+        name = name[i:]
+        for i in range(len(name) - 1, 0, -1):
+            if name[i] != ' ':
+                break
+        name = name[: i + 1]
+        return name
 
     names_list = []
+    html = read_file(path)
     soup = bs.BeautifulSoup(html, 'lxml')
+
     profiles = soup.find_all('li', class_='org-people-profiles-module__profile-item')
-    print(profiles)
+    for profile in profiles:
+        name = profile.find('div', class_='org-people-profile-card__profile-title').text
+        name = make_name_pretty(name)
+        names_list.append(name)
 
     return names_list
 
