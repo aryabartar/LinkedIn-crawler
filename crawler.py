@@ -94,6 +94,16 @@ def get_person_information(html_path):
         text = text[i:]
         return text
 
+    def make_website_pretty(website):
+        website = remove_first_spaces(website)
+        i = 0
+        for i in range(0, len(website)):
+            if website[i] == "&":
+                break
+            print(website[i])
+
+        return website[:i]
+
     def make_phone_pretty(phone):
         phone = remove_first_spaces(phone)
         return phone
@@ -134,15 +144,23 @@ def get_person_information(html_path):
     except:
         phone = None
 
-    print(name, " | ", email, " | ", phone)
+    try:
+        website_temp_index = find_index_in_array(html_array,
+                                                 'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener"')
+        website = html_array[website_temp_index + 2]
+        website = make_website_pretty(website)
+    except:
+        website = None
+
+    print(name, " | ", email, " | ", phone, " | ", website)
 
 
-driver = webdriver.Firefox()
-open_linkedin(driver)
-random_wait()
+# driver = webdriver.Firefox()
+# open_linkedin(driver)
+# random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
 # print(find_names_from_main_page(amirkabir_alumni_html))
-get_and_save_profile_html(driver,
-                          "https://www.linkedin.com/in/mohsen-shokri/")
+# get_and_save_profile_html(driver,
+#                           "https://www.linkedin.com/in/forough-msalehi/")
 
 get_person_information("people-htmls/test.html")
