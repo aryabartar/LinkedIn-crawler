@@ -83,6 +83,10 @@ def find_names_from_main_page(path):
         name = name[: i + 1]
         return name
 
+    def make_url_complete(url):
+        url = "https://www.linkedin.com" + url
+        return url
+
     names_list = []
     html = read_file(path)
     soup = bs.BeautifulSoup(html, 'lxml')
@@ -91,7 +95,9 @@ def find_names_from_main_page(path):
     for profile in profiles:
         name = profile.find('div', class_='org-people-profile-card__profile-title').text
         name = make_name_pretty(name)
-        names_list.append(name)
+        url = profile.find('a', class_='link-without-visited-state ember-view').get('href', None)
+        url = make_url_complete(url)
+        names_list.append((name, url))
 
     return names_list
 
