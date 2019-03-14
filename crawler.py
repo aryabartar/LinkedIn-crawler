@@ -7,6 +7,13 @@ from selenium import webdriver
 SPECIAL_CHARACTER = "/|||\\"  # This special notation is used to replace given characters
 
 
+def find_index_in_array(array, search):
+    for element in array:
+        if search in element:
+            return array.index(element)
+    return None
+
+
 def write_to_file(path, text):
     f = open(path, "w")
     f.write(text)
@@ -100,29 +107,30 @@ def get_person_information(html_path):
     html = html.replace("<", SPECIAL_CHARACTER)
     html = html.replace("\n", SPECIAL_CHARACTER)
 
-    html = html.replace('h1 class="pv-top-card-section__name inline t-24 t-black t-normal"', "craw_person_name")
-    html = html.replace(
-        'a href="mailto:nastaranour73@gmail.com" class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener noreferrer"',
-        "craw_person_email")
-
     html_array = html.split(SPECIAL_CHARACTER)
 
-    name_temp_index = html_array.index('craw_person_name')
+    name_temp_index = find_index_in_array(html_array,
+                                          'h1 class="pv-top-card-section__name inline t-24 t-black t-normal')
     name = html_array[name_temp_index + 2]
     name = make_name_pretty(name)
 
-    email_temp_index = html_array.index('craw_person_email')
-    email = html_array[email_temp_index + 2]
-    email = make_email_pretty(email)
+    try:
+        email_temp_index = find_index_in_array(html_array,
+                                               'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener noreferrer"')
+        email = html_array[email_temp_index + 2]
+        email = make_email_pretty(email)
+    except:
+        email = None
 
-    print(email)
+    print(name, email)
 
-# driver = webdriver.Firefox()
-# open_linkedin(driver)
-# random_wait()
+
+driver = webdriver.Firefox()
+open_linkedin(driver)
+random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
 # print(find_names_from_main_page(amirkabir_alumni_html))
-# get_and_save_profile_html(driver,
-#                           "https://www.linkedin.com/in/nastaran-nourbakhsh-860a6216b/")
+get_and_save_profile_html(driver,
+                          "https://www.linkedin.com/in/mohsen-shokri/")
 
 get_person_information("people-htmls/test.html")
