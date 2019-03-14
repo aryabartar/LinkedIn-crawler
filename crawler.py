@@ -11,6 +11,13 @@ def write_to_file(path, text):
     f.close()
 
 
+def read_file(path):
+    f = open(path, "r")
+    text = f.read()
+    f.close()
+    return text
+
+
 def random_wait():
     random = randint(1, 3)
     time.sleep(random)
@@ -68,10 +75,17 @@ def get_and_save_profile_html(driver, link):
     return html_address
 
 
-driver = webdriver.Firefox()
-open_linkedin(driver)
-random_wait()
+def get_person_information(html_path):
+    html = read_file(html_path)
+    print(html)
+
+
+# driver = webdriver.Firefox()
+# open_linkedin(driver)
+# random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
 # print(find_names_from_main_page(amirkabir_alumni_html))
-get_and_save_profile_html(driver,
-                          "https://www.linkedin.com/in/nastaran-nourbakhsh-860a6216b/")
+# get_and_save_profile_html(driver,
+#                           "https://www.linkedin.com/in/nastaran-nourbakhsh-860a6216b/")
+
+get_person_information("people-htmls/test.html")
