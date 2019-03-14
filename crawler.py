@@ -1,5 +1,6 @@
 import time
 import pickle
+import bs4 as bs
 
 from random import randint
 from selenium import webdriver
@@ -69,16 +70,13 @@ def get_amirkabir_alumni_html(driver):
     return page_resource
 
 
-def find_names_from_main_page(html):
-    names_list = []
+def find_names_from_main_page(path):
+    html = read_file(path)
 
-    html = html.replace("\n", " ").split(" ")
-    while "lt-line-clamp--single-line" in html:
-        index = html.index(
-            'lt-line-clamp--single-line')
-        name = "{firstname} {lastname}".format(firstname=html[index + 3], lastname=html[index + 4])
-        del html[index]
-        names_list.append(name)
+    names_list = []
+    soup = bs.BeautifulSoup(html, 'lxml')
+    profiles = soup.find_all('li', class_='org-people-profiles-module__profile-item')
+    print(profiles)
 
     return names_list
 
@@ -127,6 +125,7 @@ def get_person_information(html_path):
         return email
 
     html = read_file(html_path)
+
     html = html.replace(">", SPECIAL_CHARACTER)
     html = html.replace("<", SPECIAL_CHARACTER)
     html = html.replace("\n", SPECIAL_CHARACTER)
@@ -190,12 +189,12 @@ def get_person_information(html_path):
     print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
 
 
-driver = webdriver.Firefox()
-open_linkedin(driver)
-random_wait()
+# driver = webdriver.Firefox()
+# open_linkedin(driver)
+# random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
-# print(find_names_from_main_page(amirkabir_alumni_html))
-get_and_save_profile_html(driver,
-                          "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
+print(find_names_from_main_page("alumni-htmls/Amirkabir.html"))
+# get_and_save_profile_html(driver,
+#                           "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
 
-get_person_information("people-htmls/test.html")
+# get_person_information("people-htmls/test.html")
