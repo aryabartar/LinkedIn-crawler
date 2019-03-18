@@ -33,6 +33,12 @@ def write_to_file(path, text):
     f.close()
 
 
+def append_to_file(path, text):
+    f = open(path, "a")
+    f.write(text)
+    f.close()
+
+
 def read_file(path):
     f = open(path, "r")
     text = f.read()
@@ -41,7 +47,7 @@ def read_file(path):
 
 
 def random_wait():
-    random = randint(1, 3)
+    random = randint(50, 100)
     time.sleep(random)
 
 
@@ -230,9 +236,14 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
 
         for profile in profiles:
             try:
-                random_wait()
-                get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
-                print("Successfully saved profile html.")
+                fetched_profiles_id = read_file("app-data/html-fetch-list.txt").split("||")
+                if profile["id"] not in fetched_profiles_id:
+                    random_wait()
+                    get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
+                    append_to_file("app-data/html-fetch-list.txt", "||" + profile["id"])
+                    print("Successfully saved profile html.")
+                else:
+                    print("Profile html exists. still running ...")
             except:
                 print("An error occurred while saving profile html but still running ...")
 
