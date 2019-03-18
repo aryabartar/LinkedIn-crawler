@@ -121,11 +121,8 @@ def get_and_save_profile_html(driver, link, write_to_address):
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
     page_source = driver.page_source
-
-    html_address = "people-htmls/test.html"
-    write_to_file("people-htmls/test.html", page_source)
-
-    return html_address
+    # print(write_to_address)
+    write_to_file(write_to_address, page_source)
 
 
 def get_person_information(html_path):
@@ -231,9 +228,13 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
         for row in csv_reader:
             profiles.append({"id": row[0], "name": row[1], "url": row[2]})
 
-    for profile in profiles:
-        random_wait()
-        get_and_save_profile_html(driver, profile["url"], save_folder_path + profile["id"])
+        for profile in profiles:
+            try:
+                random_wait()
+                get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
+                print("Successfully saved profile html.")
+            except:
+                print("An error occurred while saving profile html but still running ...")
 
 
 driver = webdriver.Firefox()
@@ -243,6 +244,6 @@ random_wait()
 # name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
 # write_name_and_link_list_to_csv(name_and_list_array, "alumni-htmls/amirkabir-Greater New York City Area.csv")
 get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv",
-                           "people-html/amirkabir-Greater New York City Area", driver)
+                           "people-htmls/amirkabir-Greater New York City Area", driver)
 
 # get_person_information("people-htmls/test.html")
