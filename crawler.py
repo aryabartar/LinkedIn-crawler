@@ -3,7 +3,6 @@ import pickle
 import bs4 as bs
 import csv
 
-
 from random import randint
 from selenium import webdriver
 
@@ -74,11 +73,11 @@ def get_amirkabir_alumni_html(driver, file_name):
         return page_resource
 
 
-def save_name_and_links_list(name_and_link_array, file_path):
+def write_name_and_link_list_to_csv(name_and_link_array, file_path):
     with open(file_path, mode='w') as name_and_link_file:
         employee_writer = csv.writer(name_and_link_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for name_and_link in name_and_link_array:
-            employee_writer.writerow([name_and_link[0] , name_and_link[1]])
+            employee_writer.writerow([name_and_link["name"], name_and_link["url"]])
 
 
 def find_names_from_main_page(path):
@@ -111,7 +110,7 @@ def find_names_from_main_page(path):
             name = make_name_pretty(name)
             url = profile.find('a', class_='link-without-visited-state ember-view').get('href', None)
             url = make_url_complete(url)
-            names_list.append((name, url))
+            names_list.append({"name": name, "url": url})
 
     return names_list
 
@@ -224,13 +223,22 @@ def get_person_information(html_path):
     print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
 
 
+def get_and_save_profiles_html(csv_path):
+    profiles = []
+    with open(csv_path) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            profiles.append({"name": row[0], "link": row[1]})
+    print(profiles)
+
 # driver = webdriver.Firefox()
 # open_linkedin(driver)
 # random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
-print(find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html"))
+# name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
+# write_name_and_link_list_to_csv(name_and_list_array, "alumni-htmls/amirkabir-Greater New York City Area.csv")
+get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv")
 # get_and_save_profile_html(driver,
 #                           "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
 
 # get_person_information("people-htmls/test.html")
-
