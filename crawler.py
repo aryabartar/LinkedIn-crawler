@@ -60,14 +60,16 @@ def open_linkedin(driver):
     driver.get("https://www.linkedin.com/")
 
 
-def get_amirkabir_alumni_html(driver):
+def get_amirkabir_alumni_html(driver, file_name):
     aut_usa_url = "https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0"
     driver.get(aut_usa_url)
-    page_resource = driver.page_source
-    f = open("alumni-htmls/Amirkabir.html", "w")
-    f.write(page_resource)
-    f.close()
-    return page_resource
+    finished = input("Finished crawling?")
+    if finished == "True":
+        page_resource = driver.page_source
+        f = open("alumni-htmls/" + file_name, "w")
+        f.write(page_resource)
+        f.close()
+        return page_resource
 
 
 def find_names_from_main_page(path):
@@ -210,10 +212,10 @@ def get_person_information(html_path):
     print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
 
 
-# driver = webdriver.Firefox()
-# open_linkedin(driver)
-# random_wait()
-# amirkabir_alumni_html = get_amirkabir_alumni_html(driver)
+driver = webdriver.Firefox()
+open_linkedin(driver)
+random_wait()
+amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "amirkabir-Greater New York City Area.html")
 print(find_names_from_main_page("alumni-htmls/Amirkabir.html"))
 # get_and_save_profile_html(driver,
 #                           "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
