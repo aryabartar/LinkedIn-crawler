@@ -1,6 +1,8 @@
 import time
 import pickle
 import bs4 as bs
+import csv
+
 
 from random import randint
 from selenium import webdriver
@@ -70,6 +72,13 @@ def get_amirkabir_alumni_html(driver, file_name):
         f.write(page_resource)
         f.close()
         return page_resource
+
+
+def save_name_and_links_list(name_and_link_array, file_path):
+    with open(file_path, mode='w') as name_and_link_file:
+        employee_writer = csv.writer(name_and_link_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        for name_and_link in name_and_link_array:
+            employee_writer.writerow([name_and_link[0] , name_and_link[1]])
 
 
 def find_names_from_main_page(path):
@@ -224,3 +233,4 @@ print(find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Ar
 #                           "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
 
 # get_person_information("people-htmls/test.html")
+
