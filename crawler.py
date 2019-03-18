@@ -77,7 +77,8 @@ def write_name_and_link_list_to_csv(name_and_link_array, file_path):
     with open(file_path, mode='w') as name_and_link_file:
         employee_writer = csv.writer(name_and_link_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for name_and_link in name_and_link_array:
-            employee_writer.writerow([name_and_link["name"], name_and_link["url"]])
+            id = name_and_link["url"].split("/")[-2]
+            employee_writer.writerow([id, name_and_link["name"], name_and_link["url"]])
 
 
 def find_names_from_main_page(path):
@@ -115,7 +116,7 @@ def find_names_from_main_page(path):
     return names_list
 
 
-def get_and_save_profile_html(driver, link):
+def get_and_save_profile_html(driver, link, write_to_address):
     """ Opens link page and saves FULL htm (with information in determined place."""
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
@@ -223,22 +224,25 @@ def get_person_information(html_path):
     print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
 
 
-def get_and_save_profiles_html(csv_path):
+def get_and_save_profiles_html(csv_path, save_folder_path, driver):
     profiles = []
     with open(csv_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
-            profiles.append({"name": row[0], "link": row[1]})
-    print(profiles)
+            profiles.append({"id": row[0], "name": row[1], "url": row[2]})
 
-# driver = webdriver.Firefox()
-# open_linkedin(driver)
-# random_wait()
+    for profile in profiles:
+        random_wait()
+        get_and_save_profile_html(driver, profile["url"], save_folder_path + profile["id"])
+
+
+driver = webdriver.Firefox()
+open_linkedin(driver)
+random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
 # name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
 # write_name_and_link_list_to_csv(name_and_list_array, "alumni-htmls/amirkabir-Greater New York City Area.csv")
-get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv")
-# get_and_save_profile_html(driver,
-#                           "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
+get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv",
+                           "people-html/amirkabir-Greater New York City Area", driver)
 
 # get_person_information("people-htmls/test.html")
