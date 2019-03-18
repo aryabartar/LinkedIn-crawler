@@ -95,11 +95,14 @@ def find_names_from_main_page(path):
 
     profiles = soup.find_all('li', class_='org-people-profiles-module__profile-item')
     for profile in profiles:
-        name = profile.find('div', class_='org-people-profile-card__profile-title').text
-        name = make_name_pretty(name)
-        url = profile.find('a', class_='link-without-visited-state ember-view').get('href', None)
-        url = make_url_complete(url)
-        names_list.append((name, url))
+        name_html = profile.find('div', class_='org-people-profile-card__profile-title')
+        # When not showing 'LinkedIn Member'
+        if name_html is not None:
+            name = name_html.text
+            name = make_name_pretty(name)
+            url = profile.find('a', class_='link-without-visited-state ember-view').get('href', None)
+            url = make_url_complete(url)
+            names_list.append((name, url))
 
     return names_list
 
@@ -212,11 +215,11 @@ def get_person_information(html_path):
     print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
 
 
-driver = webdriver.Firefox()
-open_linkedin(driver)
-random_wait()
-amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "amirkabir-Greater New York City Area.html")
-print(find_names_from_main_page("alumni-htmls/Amirkabir.html"))
+# driver = webdriver.Firefox()
+# open_linkedin(driver)
+# random_wait()
+# amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
+print(find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html"))
 # get_and_save_profile_html(driver,
 #                           "https://www.linkedin.com/in/soheil-tabatabaei-mortazavi-67a29259/")
 
