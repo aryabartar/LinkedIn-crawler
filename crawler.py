@@ -175,9 +175,18 @@ def get_person_information(html_path):
     # Name
     name = None
     try:
-        name = soup.find('h1', class_='pv-contact-info')
+        name = soup.find('h1', {"id": "pv-contact-info"}).text
+        name = remove_first_and_last_spaces(name)
     except:
         name = None
+
+    # Profile url
+    profile_url = None
+    try:
+        profile_url_html = soup.find('a', {"class": "pv-contact-info__contact-link"})
+        profile_url = profile_url_html.get('href')
+    except:
+        profile_url = None
 
     # Email
     email = None
@@ -280,6 +289,7 @@ def get_person_information(html_path):
 
     information_dict = {
         "name": name,
+        "profile_url": profile_url,
         "email": email,
         "phone": phone,
         "websites": websites,
