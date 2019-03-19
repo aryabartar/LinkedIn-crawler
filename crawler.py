@@ -53,18 +53,18 @@ def random_wait():
 
 def open_linkedin(driver):
     def save_cookie(driver):
-        pickle.dump(driver.get_cookies(), open("cookies.pkl", "wb"))
+        pickle.dump(driver.get_cookies(), open("../cookies.pkl", "wb"))
 
     def restore_cookie(driver):
-        cookies = pickle.load(open("cookies.pkl", "rb"))
+        cookies = pickle.load(open("../cookies.pkl", "rb"))
         for cookie in cookies:
             driver.add_cookie(cookie)
 
     driver.get("https://www.linkedin.com/")
-    # restore_cookie(driver)
-    # time.sleep(100)
+    print("Opened driver")
     restore_cookie(driver)
     driver.get("https://www.linkedin.com/")
+    print("Set cookies.")
 
 
 def get_amirkabir_alumni_html(driver, file_name):
