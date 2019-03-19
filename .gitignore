@@ -1,5 +1,6 @@
 selenium
 .idea/
+venv/
 geckodriver.log
 people-htmls/
 app-data/
