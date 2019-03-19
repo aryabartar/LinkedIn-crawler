@@ -2,7 +2,7 @@ import time
 import pickle
 import bs4 as bs
 import csv
-import glob, os
+import glob
 
 from random import randint
 from selenium import webdriver
@@ -136,13 +136,13 @@ def get_and_save_people_information_to_csv(dir):
     if not dir[-1] == "/":
         dir = dir + "/"
 
-    html_paths_list = glob.glob(dir + "*.html")
+    htmls_path_list = glob.glob(dir + "*.html")
 
     with open('../export/full-information.csv', mode='w') as profile_info_file:
         profile_info_writer = csv.writer(profile_info_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         first_row = True
-        for path in html_paths_list:
+        for path in htmls_path_list:
             info_dict = get_person_information(path)
 
             if info_dict.get('id', None) is None:
@@ -360,6 +360,22 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
                 print("An error occurred while saving profile html but still running ...")
 
 
+def get_text_information_from_html(dir_path):
+    dirs_list = glob.glob(dir_path + "/*/")
+
+    for dir in dirs_list:
+        htmls_path_list = glob.glob(dir + "*.html")
+
+        for html_path in htmls_path_list:
+            html = read_file(html_path)
+            soup = bs.BeautifulSoup(html, 'lxml')
+            raw_text = soup.text
+            text_path = html_path.replace(".html", ".txt")
+            raw_text = raw_text.replace("\n", "")
+            write_to_file(text_path, raw_text)
+
+
+
 # driver = webdriver.Firefox()
 # open_linkedin(driver)
 # random_wait()
@@ -370,7 +386,8 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
 #                            "people-htmls/amirkabir-Greater New York City Area", driver)
 
 # get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
-get_and_save_people_information_to_csv("../people-htmls/amirkabir-Greater New York City Area")
+# get_and_save_people_information_to_csv("../people-htmls/amirkabir-Greater New York City Area")
+get_text_information_from_html("../people-htmls")
 # get_and_save_profile_html(driver, 'https://www.linkedin.com/in/ali-hosseini-93424437/', 'ali-hosseini-93424437.html')
 
 
