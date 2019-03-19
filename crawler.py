@@ -127,6 +127,7 @@ def get_and_save_profile_html(driver, link, write_to_address):
     """ Opens link page and saves FULL htm (with information in determined place."""
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
+    time.sleep(6)
     page_source = driver.page_source
     write_to_file(write_to_address, page_source)
 
@@ -239,7 +240,39 @@ def get_person_information(html_path):
     except:
         pass
 
-    print(universities)
+    # Outstanding skills (3 skills)
+    skills = None
+    try:
+        skills_html = soup.find_all('span', class_='pv-skill-category-entity__name-text')
+        skills = []
+        for skill in skills_html:
+            skills.append(remove_first_and_last_spaces(skill.text))
+    except:
+        pass
+
+    # Experience (last 5)
+    experiences = None
+
+    try:
+        experience_section_html = soup.find('section', class_='experience-section')
+        experiences_html = experience_section_html.find_all('div', class_='pv-entity__position-group-pager')
+        experiences = []
+        for experience_html in experiences_html:
+            temp_experience_str = ""
+            title = experience_html.find('h3', {'class': ['t-16', 't-black', 't-bold']}).text
+            company_name = experience_html.find('h4', {'class': ['t-16', 't-black', 't-normal']}).text
+
+            company_name_array = company_name.split("\n")
+            if not company_name_array[1] == 'Company Name':
+                raise Exception("Invalid company format!")
+
+            company_name = company_name_array[2]
+            temp_experience_str = "Title: " + title + " | Company: " + company_name
+            experiences.append(temp_experience_str)
+    except:
+        experiences = None
+
+    print(experiences)
 
 
 def get_and_save_profiles_html(csv_path, save_folder_path, driver):
@@ -275,3 +308,6 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
 # get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
 get_and_save_people_information("../people-htmls/amirkabir-Greater New York City Area")
 # get_and_save_profile_html(driver, 'https://www.linkedin.com/in/ali-hosseini-93424437/', 'ali-hosseini-93424437.html')
+
+
+# get_person_information('/home/arya/PycharmProjects/LinkedInCrawler/people-htmls/amirkabir-Greater New York City Area/zahra-nazari-23002141.html')
