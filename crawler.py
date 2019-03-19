@@ -127,7 +127,7 @@ def get_and_save_profile_html(driver, link, write_to_address):
     """ Opens link page and saves FULL htm (with information in determined place."""
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
-    time.sleep(6)
+    time.sleep(6)  # For loading entire website (skills and experience)
     page_source = driver.page_source
     write_to_file(write_to_address, page_source)
 
@@ -139,7 +139,7 @@ def get_and_save_people_information_to_csv(dir):
     html_paths_list = glob.glob(dir + "*.html")
 
     for path in html_paths_list:
-        get_person_information(path)
+        print(get_person_information(path))
 
 
 def get_person_information(html_path):
@@ -172,6 +172,13 @@ def get_person_information(html_path):
     html = read_file(html_path)
     soup = bs.BeautifulSoup(html, 'lxml')
 
+    # Name
+    name = None
+    try:
+        name = soup.find('h1', class_='pv-contact-info')
+    except:
+        name = None
+
     # Email
     email = None
     try:
@@ -196,9 +203,9 @@ def get_person_information(html_path):
         section_html = soup.find('section', class_='ci-websites')
         websites_html = section_html.find_all('a', class_='pv-contact-info__contact-link')
 
-        websites = ""
+        websites = []
         for website_html in websites_html:
-            websites = websites + str(website_html.get('href')) + " | "
+            websites.append(str(website_html.get('href')))
 
     except:
         websites = None
@@ -271,7 +278,16 @@ def get_person_information(html_path):
     except:
         experiences = None
 
-    return email, phone, websites, universities, skills, experiences
+    information_dict = {
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "websites": websites,
+        "universities": universities,
+        "skills": skills,
+        "experiences": experiences,
+    }
+    return information_dict
 
 
 def get_and_save_profiles_html(csv_path, save_folder_path, driver):
