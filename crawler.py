@@ -2,6 +2,7 @@ import time
 import pickle
 import bs4 as bs
 import csv
+import glob, os
 
 from random import randint
 from selenium import webdriver
@@ -131,6 +132,16 @@ def get_and_save_profile_html(driver, link, write_to_address):
     write_to_file(write_to_address, page_source)
 
 
+def get_and_save_people_information(dir):
+    if not dir[-1] == "/":
+        dir = dir + "/"
+
+    html_paths_list = glob.glob(dir + "*.html")
+
+    for path in html_paths_list:
+        get_person_information(path)
+
+
 def get_person_information(html_path):
     def remove_first_spaces(text):
         # removes name spaces
@@ -163,68 +174,74 @@ def get_person_information(html_path):
         return email
 
     html = read_file(html_path)
+    soup = bs.BeautifulSoup(html, 'lxml')
 
-    html = html.replace(">", SPECIAL_CHARACTER)
-    html = html.replace("<", SPECIAL_CHARACTER)
-    html = html.replace("\n", SPECIAL_CHARACTER)
+    # Email
+    class_section_html = soup.find('section', class_='org-people-profiles-module__profile-item')
+    email = class_section_html.find('a', class_='pv-contact-info__contact-link').text
+    print(email)
 
-    html_array = html.split(SPECIAL_CHARACTER)
+    # html = html.replace(">", SPECIAL_CHARACTER)
+    # html = html.replace("<", SPECIAL_CHARACTER)
+    # html = html.replace("\n", SPECIAL_CHARACTER)
+    #
+    # html_array = html.split(SPECIAL_CHARACTER)
+    #
+    # name_temp_index = find_index_in_array(html_array,
+    #                                       'h1 class="pv-top-card-section__name inline t-24 t-black t-normal')
+    # name = html_array[name_temp_index + 2]
+    # name = make_name_pretty(name)
+    #
+    # try:
+    #     email_temp_index = find_index_in_array(html_array,
+    #                                            'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener noreferrer"')
+    #     email = html_array[email_temp_index + 2]
+    #     email = make_email_pretty(email)
+    # except:
+    #     email = None
+    #
+    # try:
+    #     phone_temp_index = find_index_in_array(html_array,
+    #                                            'span class="t-14 t-black t-normal"')
+    #     phone = html_array[phone_temp_index + 1]
+    #     phone = make_phone_pretty(phone)
+    # except:
+    #     phone = None
+    #
+    # try:
+    #     website_temp_index = find_index_in_array(html_array,
+    #                                              'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener"')
+    #     website = html_array[website_temp_index + 2]
+    #     website = make_website_pretty(website)
+    # except:
+    #     website = None
+    #
+    # try:
+    #     universities = []
+    #     university_count, university_temp_indexes = find_number_of_repeats(html_array,
+    #                                                                        'pv-entity__school-name t-16 t-black t-bold')
+    #     degree_repeat, degree_repeat_temp_indexes = find_number_of_repeats(html_array,
+    #                                                                        'pv-entity__secondary-title pv-entity__degree-name pv-entity__secondary-title t-14 t-black t-normal')
+    #     field_of_study_repeat, field_of_study_temp_indexes = find_number_of_repeats(html_array,
+    #                                                                                 'pv-entity__secondary-title pv-entity__fos pv-entity__secondary-title t-14 t-black--light t-normal')
+    #     if university_count == degree_repeat == field_of_study_repeat:
+    #         for i in range(0, university_count):
+    #             university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
+    #             degree = remove_first_spaces(html_array[degree_repeat_temp_indexes[i] + 9])
+    #             field = remove_first_spaces(html_array[field_of_study_temp_indexes[i] + 9])
+    #             university_string = "University: " + university + "| Degree: " + degree + "| Field: " + field
+    #             universities.append(university_string)
+    #
+    #     else:
+    #         for i in range(0, university_count):
+    #             university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
+    #             university_string = "University: " + university
+    #             universities.append(university_string)
+    #
+    # except:
+    #     pass
 
-    name_temp_index = find_index_in_array(html_array,
-                                          'h1 class="pv-top-card-section__name inline t-24 t-black t-normal')
-    name = html_array[name_temp_index + 2]
-    name = make_name_pretty(name)
-
-    try:
-        email_temp_index = find_index_in_array(html_array,
-                                               'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener noreferrer"')
-        email = html_array[email_temp_index + 2]
-        email = make_email_pretty(email)
-    except:
-        email = None
-
-    try:
-        phone_temp_index = find_index_in_array(html_array,
-                                               'span class="t-14 t-black t-normal"')
-        phone = html_array[phone_temp_index + 1]
-        phone = make_phone_pretty(phone)
-    except:
-        phone = None
-
-    try:
-        website_temp_index = find_index_in_array(html_array,
-                                                 'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener"')
-        website = html_array[website_temp_index + 2]
-        website = make_website_pretty(website)
-    except:
-        website = None
-
-    try:
-        universities = []
-        university_count, university_temp_indexes = find_number_of_repeats(html_array,
-                                                                           'pv-entity__school-name t-16 t-black t-bold')
-        degree_repeat, degree_repeat_temp_indexes = find_number_of_repeats(html_array,
-                                                                           'pv-entity__secondary-title pv-entity__degree-name pv-entity__secondary-title t-14 t-black t-normal')
-        field_of_study_repeat, field_of_study_temp_indexes = find_number_of_repeats(html_array,
-                                                                                    'pv-entity__secondary-title pv-entity__fos pv-entity__secondary-title t-14 t-black--light t-normal')
-        if university_count == degree_repeat == field_of_study_repeat:
-            for i in range(0, university_count):
-                university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
-                degree = remove_first_spaces(html_array[degree_repeat_temp_indexes[i] + 9])
-                field = remove_first_spaces(html_array[field_of_study_temp_indexes[i] + 9])
-                university_string = "University: " + university + "| Degree: " + degree + "| Field: " + field
-                universities.append(university_string)
-
-        else:
-            for i in range(0, university_count):
-                university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
-                university_string = "University: " + university
-                universities.append(university_string)
-
-    except:
-        pass
-
-    print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
+    # print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
 
 
 def get_and_save_profiles_html(csv_path, save_folder_path, driver):
@@ -248,13 +265,14 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
                 print("An error occurred while saving profile html but still running ...")
 
 
-driver = webdriver.Firefox()
-open_linkedin(driver)
-random_wait()
+# driver = webdriver.Firefox()
+# open_linkedin(driver)
+# random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
 # name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
 # write_name_and_link_list_to_csv(name_and_list_array, "alumni-htmls/amirkabir-Greater New York City Area.csv")
-get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv",
-                           "people-htmls/amirkabir-Greater New York City Area", driver)
+# get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv",
+#                            "people-htmls/amirkabir-Greater New York City Area", driver)
 
-# get_person_information("people-htmls/test.html")
+# get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
+get_and_save_people_information("../people-htmls/amirkabir-Greater New York City Area")
