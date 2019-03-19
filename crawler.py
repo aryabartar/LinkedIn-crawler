@@ -153,7 +153,7 @@ def get_person_information(html_path):
         for i in range(len(text) - 1, 0, -1):
             if text[i] != " ":
                 break
-        text = text[:i]
+        text = text[:i + 1]
         return text
 
     def make_phone_pretty(phone):
@@ -202,43 +202,36 @@ def get_person_information(html_path):
     except:
         pass
 
-    print(website_str)
+    # Universities
+    universities = None
+    try:
+        university_section_html = soup.find('section', class_='education-section')
+        universities_html = university_section_html.find_all('li', class_='pv-profile-section__sortable-item')
+        universities = []
+        for university in universities_html:
+            temp_str = ""
 
-    #
-    # try:
-    #     website_temp_index = find_index_in_array(html_array,
-    #                                              'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener"')
-    #     website = html_array[website_temp_index + 2]
-    #     website = make_website_pretty(website)
-    # except:
-    #     website = None
-    #
-    # try:
-    #     universities = []
-    #     university_count, university_temp_indexes = find_number_of_repeats(html_array,
-    #                                                                        'pv-entity__school-name t-16 t-black t-bold')
-    #     degree_repeat, degree_repeat_temp_indexes = find_number_of_repeats(html_array,
-    #                                                                        'pv-entity__secondary-title pv-entity__degree-name pv-entity__secondary-title t-14 t-black t-normal')
-    #     field_of_study_repeat, field_of_study_temp_indexes = find_number_of_repeats(html_array,
-    #                                                                                 'pv-entity__secondary-title pv-entity__fos pv-entity__secondary-title t-14 t-black--light t-normal')
-    #     if university_count == degree_repeat == field_of_study_repeat:
-    #         for i in range(0, university_count):
-    #             university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
-    #             degree = remove_first_spaces(html_array[degree_repeat_temp_indexes[i] + 9])
-    #             field = remove_first_spaces(html_array[field_of_study_temp_indexes[i] + 9])
-    #             university_string = "University: " + university + "| Degree: " + degree + "| Field: " + field
-    #             universities.append(university_string)
-    #
-    #     else:
-    #         for i in range(0, university_count):
-    #             university = remove_first_spaces(html_array[university_temp_indexes[i] + 1])
-    #             university_string = "University: " + university
-    #             universities.append(university_string)
-    #
-    # except:
-    #     pass
+            university_name = university.find('h3', class_='pv-entity__school-name').text
+            temp_str = temp_str + "University name: " + remove_first_and_last_spaces(university_name) + " || "
 
-    # print(name, " | ", email, " | ", phone, " | ", website, " | ", universities)
+            try:
+                degree = university.find('p', class_='pv-entity__secondary-title').find('span',
+                                                                                        class_='pv-entity__comma-item').text
+                temp_str += "Degree: " + remove_first_and_last_spaces(degree) + " || "
+            except:
+                pass
+
+            try:
+                field_of_study = university.find('p', class_='pv-entity__fos').find('span',
+                                                                                    class_='pv-entity__comma-item').text
+                temp_str += "Field Of Study: " + remove_first_and_last_spaces(field_of_study) + " || "
+            except:
+                pass
+
+            universities.append(temp_str)
+    except:
+        pass
+    print(universities)
 
 
 def get_and_save_profiles_html(csv_path, save_folder_path, driver):
