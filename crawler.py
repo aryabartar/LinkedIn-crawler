@@ -228,9 +228,17 @@ def get_person_information(html_path):
             except:
                 pass
 
+            date_str = None
+            try:
+                dates = soup.find('p', class_='pv-entity__dates').find_all('time')
+                temp_str += "Date: " + dates[0].text + "-" + dates[1].text
+            except:
+                pass
+
             universities.append(temp_str)
     except:
         pass
+
     print(universities)
 
 
