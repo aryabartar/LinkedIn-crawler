@@ -156,15 +156,6 @@ def get_person_information(html_path):
         text = text[:i]
         return text
 
-    def make_website_pretty(website):
-        website = remove_first_and_last_spaces(website)
-        i = 0
-        for i in range(0, len(website)):
-            if website[i] == "&":
-                break
-
-        return website[:i]
-
     def make_phone_pretty(phone):
         phone = remove_first_and_last_spaces(phone)
         return phone
@@ -199,18 +190,19 @@ def get_person_information(html_path):
         pass
 
     # Websites
-    website = None
+    website_str = None
     try:
         section_html = soup.find('section', class_='ci-websites')
         websites_html = section_html.find_all('a', class_='pv-contact-info__contact-link')
-        for website_html in websites_html:
-            print(make_website_pretty(website_html.text))
 
-        # website = make_website_pretty(phone)
+        website_str = ""
+        for website_html in websites_html:
+            website_str = website_str + str(website_html.get('href')) + " | "
+
     except:
         pass
 
-    print(website)
+    print(website_str)
 
     #
     # try:
