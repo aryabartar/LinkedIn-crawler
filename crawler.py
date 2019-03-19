@@ -188,6 +188,13 @@ def get_person_information(html_path):
     except:
         profile_url = None
 
+    # Id
+    id = None
+    try:
+        id = profile_url.split("/")[-1]
+    except:
+        id = None
+
     # Email
     email = None
     try:
@@ -288,6 +295,7 @@ def get_person_information(html_path):
         experiences = None
 
     information_dict = {
+        "id": id,
         "name": name,
         "profile_url": profile_url,
         "email": email,
