@@ -128,7 +128,6 @@ def get_and_save_profile_html(driver, link, write_to_address):
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
     page_source = driver.page_source
-    # print(write_to_address)
     write_to_file(write_to_address, page_source)
 
 
@@ -170,6 +169,7 @@ def get_person_information(html_path):
         return name
 
     def make_email_pretty(email):
+        email = email.replace("\n", " ")
         email = remove_first_spaces(email)
         return email
 
@@ -177,8 +177,13 @@ def get_person_information(html_path):
     soup = bs.BeautifulSoup(html, 'lxml')
 
     # Email
-    class_section_html = soup.find('section', class_='org-people-profiles-module__profile-item')
-    email = class_section_html.find('a', class_='pv-contact-info__contact-link').text
+    email = None
+    try:
+        class_section_html = soup.find('section', class_='ci-email')
+        email = class_section_html.find('a', class_='pv-contact-info__contact-link').text
+        email = make_email_pretty(email)
+    except:
+        pass
     print(email)
 
     # html = html.replace(">", SPECIAL_CHARACTER)
