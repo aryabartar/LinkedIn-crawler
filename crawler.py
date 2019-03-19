@@ -132,7 +132,7 @@ def get_and_save_profile_html(driver, link, write_to_address):
     write_to_file(write_to_address, page_source)
 
 
-def get_and_save_people_information(dir):
+def get_and_save_people_information_to_csv(dir):
     if not dir[-1] == "/":
         dir = dir + "/"
 
@@ -179,7 +179,7 @@ def get_person_information(html_path):
         email = section_html.find('a', class_='pv-contact-info__contact-link').text
         email = make_email_pretty(email)
     except:
-        pass
+        email = None
 
     # Phone
     phone = None
@@ -188,20 +188,20 @@ def get_person_information(html_path):
         phone = section_html.find('span', class_='t-black').text
         phone = make_phone_pretty(phone)
     except:
-        pass
+        phone = None
 
     # Websites
-    website_str = None
+    websites = None
     try:
         section_html = soup.find('section', class_='ci-websites')
         websites_html = section_html.find_all('a', class_='pv-contact-info__contact-link')
 
-        website_str = ""
+        websites = ""
         for website_html in websites_html:
-            website_str = website_str + str(website_html.get('href')) + " | "
+            websites = websites + str(website_html.get('href')) + " | "
 
     except:
-        pass
+        websites = None
 
     # Universities
     universities = None
@@ -238,7 +238,7 @@ def get_person_information(html_path):
 
             universities.append(temp_str)
     except:
-        pass
+        universities = None
 
     # Outstanding skills (3 skills)
     skills = None
@@ -248,11 +248,10 @@ def get_person_information(html_path):
         for skill in skills_html:
             skills.append(remove_first_and_last_spaces(skill.text))
     except:
-        pass
+        skills = None
 
     # Experience (last 5)
     experiences = None
-
     try:
         experience_section_html = soup.find('section', class_='experience-section')
         experiences_html = experience_section_html.find_all('div', class_='pv-entity__position-group-pager')
@@ -272,7 +271,7 @@ def get_person_information(html_path):
     except:
         experiences = None
 
-    print(experiences)
+    return email, phone, websites, universities, skills, experiences
 
 
 def get_and_save_profiles_html(csv_path, save_folder_path, driver):
@@ -306,7 +305,7 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
 #                            "people-htmls/amirkabir-Greater New York City Area", driver)
 
 # get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
-get_and_save_people_information("../people-htmls/amirkabir-Greater New York City Area")
+get_and_save_people_information_to_csv("../people-htmls/amirkabir-Greater New York City Area")
 # get_and_save_profile_html(driver, 'https://www.linkedin.com/in/ali-hosseini-93424437/', 'ali-hosseini-93424437.html')
 
 
