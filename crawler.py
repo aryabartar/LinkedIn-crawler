@@ -138,8 +138,20 @@ def get_and_save_people_information_to_csv(dir):
 
     html_paths_list = glob.glob(dir + "*.html")
 
-    for path in html_paths_list:
-        print(get_person_information(path))
+    with open('../export/full-information.csv', mode='w') as profile_info_file:
+        profile_info_writer = csv.writer(profile_info_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        first_row = True
+        for path in html_paths_list:
+            info_dict = get_person_information(path)
+
+            if info_dict.get('id', None) is None:
+                continue
+
+            if first_row:
+                profile_info_writer.writerow(list(info_dict.keys()))
+                first_row = False
+            profile_info_writer.writerow(list(info_dict.values()))
 
 
 def get_person_information(html_path):
@@ -169,130 +181,149 @@ def get_person_information(html_path):
         email = remove_first_and_last_spaces(email)
         return email
 
+    def get_name(soup):
+        name = None
+        try:
+            name = soup.find('h1', {"id": "pv-contact-info"}).text
+            name = remove_first_and_last_spaces(name)
+        except:
+            name = None
+        return name
+
+    def get_profile_url(soup):
+        profile_url = None
+        try:
+            profile_url_html = soup.find('a', {"class": "pv-contact-info__contact-link"})
+            profile_url = profile_url_html.get('href')
+        except:
+            profile_url = None
+
+        return profile_url
+
+    def get_id(soup):
+        id = None
+        try:
+            id = profile_url.split("/")[-1]
+        except:
+            id = None
+        return id
+
+    def get_email(soup):
+        email = None
+        try:
+            section_html = soup.find('section', class_='ci-email')
+            email = section_html.find('a', class_='pv-contact-info__contact-link').text
+            email = make_email_pretty(email)
+        except:
+            email = None
+        return email
+
+    def get_phone(soup):
+        phone = None
+        try:
+            section_html = soup.find('section', class_='ci-phone')
+            phone = section_html.find('span', class_='t-black').text
+            phone = make_phone_pretty(phone)
+        except:
+            phone = None
+        return phone
+
+    def get_websites(soup):
+        websites = None
+        try:
+            section_html = soup.find('section', class_='ci-websites')
+            websites_html = section_html.find_all('a', class_='pv-contact-info__contact-link')
+
+            websites = []
+            for website_html in websites_html:
+                websites.append(str(website_html.get('href')))
+        except:
+            websites = None
+        return websites
+
+    def get_universities(soup):
+        universities = None
+        try:
+            university_section_html = soup.find('section', class_='education-section')
+            universities_html = university_section_html.find_all('li', class_='pv-profile-section__sortable-item')
+            universities = []
+            for university in universities_html:
+                temp_str = ""
+
+                university_name = university.find('h3', class_='pv-entity__school-name').text
+                temp_str = temp_str + "University name: " + remove_first_and_last_spaces(university_name) + " || "
+
+                try:
+                    degree = university.find('p', class_='pv-entity__secondary-title').find('span',
+                                                                                            class_='pv-entity__comma-item').text
+                    temp_str += "Degree: " + remove_first_and_last_spaces(degree) + " || "
+                except:
+                    pass
+
+                try:
+                    field_of_study = university.find('p', class_='pv-entity__fos').find('span',
+                                                                                        class_='pv-entity__comma-item').text
+                    temp_str += "Field Of Study: " + remove_first_and_last_spaces(field_of_study) + " || "
+                except:
+                    pass
+
+                date_str = None
+                try:
+                    dates = soup.find('p', class_='pv-entity__dates').find_all('time')
+                    temp_str += "Date: " + dates[0].text + "-" + dates[1].text
+                except:
+                    pass
+
+                universities.append(temp_str)
+        except:
+            universities = None
+        return universities
+
+    def get_skills(soup):
+        # 3 top skills
+        skills = None
+        try:
+            skills_html = soup.find_all('span', class_='pv-skill-category-entity__name-text')
+            skills = []
+            for skill in skills_html:
+                skills.append(remove_first_and_last_spaces(skill.text))
+        except:
+            skills = None
+        return skills
+
+    def get_experiences(soup):
+        experiences = None
+        try:
+            experience_section_html = soup.find('section', class_='experience-section')
+            experiences_html = experience_section_html.find_all('div', class_='pv-entity__position-group-pager')
+            experiences = []
+            for experience_html in experiences_html:
+                temp_experience_str = ""
+                title = experience_html.find('h3', {'class': ['t-16', 't-black', 't-bold']}).text
+                company_name = experience_html.find('h4', {'class': ['t-16', 't-black', 't-normal']}).text
+
+                company_name_array = company_name.split("\n")
+                if not company_name_array[1] == 'Company Name':
+                    raise Exception("Invalid company format!")
+
+                company_name = company_name_array[2]
+                temp_experience_str = "Title: " + title + " | Company: " + company_name
+                experiences.append(temp_experience_str)
+        except:
+            experiences = None
+
     html = read_file(html_path)
     soup = bs.BeautifulSoup(html, 'lxml')
 
-    # Name
-    name = None
-    try:
-        name = soup.find('h1', {"id": "pv-contact-info"}).text
-        name = remove_first_and_last_spaces(name)
-    except:
-        name = None
-
-    # Profile url
-    profile_url = None
-    try:
-        profile_url_html = soup.find('a', {"class": "pv-contact-info__contact-link"})
-        profile_url = profile_url_html.get('href')
-    except:
-        profile_url = None
-
-    # Id
-    id = None
-    try:
-        id = profile_url.split("/")[-1]
-    except:
-        id = None
-
-    # Email
-    email = None
-    try:
-        section_html = soup.find('section', class_='ci-email')
-        email = section_html.find('a', class_='pv-contact-info__contact-link').text
-        email = make_email_pretty(email)
-    except:
-        email = None
-
-    # Phone
-    phone = None
-    try:
-        section_html = soup.find('section', class_='ci-phone')
-        phone = section_html.find('span', class_='t-black').text
-        phone = make_phone_pretty(phone)
-    except:
-        phone = None
-
-    # Websites
-    websites = None
-    try:
-        section_html = soup.find('section', class_='ci-websites')
-        websites_html = section_html.find_all('a', class_='pv-contact-info__contact-link')
-
-        websites = []
-        for website_html in websites_html:
-            websites.append(str(website_html.get('href')))
-
-    except:
-        websites = None
-
-    # Universities
-    universities = None
-    try:
-        university_section_html = soup.find('section', class_='education-section')
-        universities_html = university_section_html.find_all('li', class_='pv-profile-section__sortable-item')
-        universities = []
-        for university in universities_html:
-            temp_str = ""
-
-            university_name = university.find('h3', class_='pv-entity__school-name').text
-            temp_str = temp_str + "University name: " + remove_first_and_last_spaces(university_name) + " || "
-
-            try:
-                degree = university.find('p', class_='pv-entity__secondary-title').find('span',
-                                                                                        class_='pv-entity__comma-item').text
-                temp_str += "Degree: " + remove_first_and_last_spaces(degree) + " || "
-            except:
-                pass
-
-            try:
-                field_of_study = university.find('p', class_='pv-entity__fos').find('span',
-                                                                                    class_='pv-entity__comma-item').text
-                temp_str += "Field Of Study: " + remove_first_and_last_spaces(field_of_study) + " || "
-            except:
-                pass
-
-            date_str = None
-            try:
-                dates = soup.find('p', class_='pv-entity__dates').find_all('time')
-                temp_str += "Date: " + dates[0].text + "-" + dates[1].text
-            except:
-                pass
-
-            universities.append(temp_str)
-    except:
-        universities = None
-
-    # Outstanding skills (3 skills)
-    skills = None
-    try:
-        skills_html = soup.find_all('span', class_='pv-skill-category-entity__name-text')
-        skills = []
-        for skill in skills_html:
-            skills.append(remove_first_and_last_spaces(skill.text))
-    except:
-        skills = None
-
-    # Experience (last 5)
-    experiences = None
-    try:
-        experience_section_html = soup.find('section', class_='experience-section')
-        experiences_html = experience_section_html.find_all('div', class_='pv-entity__position-group-pager')
-        experiences = []
-        for experience_html in experiences_html:
-            temp_experience_str = ""
-            title = experience_html.find('h3', {'class': ['t-16', 't-black', 't-bold']}).text
-            company_name = experience_html.find('h4', {'class': ['t-16', 't-black', 't-normal']}).text
-
-            company_name_array = company_name.split("\n")
-            if not company_name_array[1] == 'Company Name':
-                raise Exception("Invalid company format!")
-
-            company_name = company_name_array[2]
-            temp_experience_str = "Title: " + title + " | Company: " + company_name
-            experiences.append(temp_experience_str)
-    except:
-        experiences = None
+    name = get_name(soup)
+    profile_url = get_profile_url(soup)
+    id = get_id(soup)
+    phone = get_phone(soup)
+    email = get_email(soup)
+    websites = get_websites(soup)
+    universities = get_universities(soup)
+    skills = get_skills(soup)
+    experiences = get_experiences(soup)
 
     information_dict = {
         "id": id,
