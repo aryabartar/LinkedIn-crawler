@@ -142,17 +142,22 @@ def get_and_save_people_information(dir):
 
 
 def get_person_information(html_path):
-    def remove_first_spaces(text):
-        # removes name spaces
-        i = 0
+    def remove_first_and_last_spaces(text):
+        # removes name spaces and \n
+        text = text.replace("\n", " ")
         for i in range(0, len(text)):
             if text[i] != " ":
                 break
         text = text[i:]
+
+        for i in range(len(text) - 1, 0, -1):
+            if text[i] != " ":
+                break
+        text = text[:i]
         return text
 
     def make_website_pretty(website):
-        website = remove_first_spaces(website)
+        website = remove_first_and_last_spaces(website)
         i = 0
         for i in range(0, len(website)):
             if website[i] == "&":
@@ -161,16 +166,15 @@ def get_person_information(html_path):
         return website[:i]
 
     def make_phone_pretty(phone):
-        phone = remove_first_spaces(phone)
+        phone = remove_first_and_last_spaces(phone)
         return phone
 
     def make_name_pretty(name):
-        name = remove_first_spaces(name)
+        name = remove_first_and_last_spaces(name)
         return name
 
     def make_email_pretty(email):
-        email = email.replace("\n", " ")
-        email = remove_first_spaces(email)
+        email = remove_first_and_last_spaces(email)
         return email
 
     html = read_file(html_path)
@@ -179,39 +183,35 @@ def get_person_information(html_path):
     # Email
     email = None
     try:
-        class_section_html = soup.find('section', class_='ci-email')
-        email = class_section_html.find('a', class_='pv-contact-info__contact-link').text
+        section_html = soup.find('section', class_='ci-email')
+        email = section_html.find('a', class_='pv-contact-info__contact-link').text
         email = make_email_pretty(email)
     except:
         pass
-    print(email)
 
-    # html = html.replace(">", SPECIAL_CHARACTER)
-    # html = html.replace("<", SPECIAL_CHARACTER)
-    # html = html.replace("\n", SPECIAL_CHARACTER)
-    #
-    # html_array = html.split(SPECIAL_CHARACTER)
-    #
-    # name_temp_index = find_index_in_array(html_array,
-    #                                       'h1 class="pv-top-card-section__name inline t-24 t-black t-normal')
-    # name = html_array[name_temp_index + 2]
-    # name = make_name_pretty(name)
-    #
-    # try:
-    #     email_temp_index = find_index_in_array(html_array,
-    #                                            'class="pv-contact-info__contact-link t-14 t-black t-normal" target="_blank" rel="noopener noreferrer"')
-    #     email = html_array[email_temp_index + 2]
-    #     email = make_email_pretty(email)
-    # except:
-    #     email = None
-    #
-    # try:
-    #     phone_temp_index = find_index_in_array(html_array,
-    #                                            'span class="t-14 t-black t-normal"')
-    #     phone = html_array[phone_temp_index + 1]
-    #     phone = make_phone_pretty(phone)
-    # except:
-    #     phone = None
+    # Phone
+    phone = None
+    try:
+        section_html = soup.find('section', class_='ci-phone')
+        phone = section_html.find('span', class_='t-black').text
+        phone = make_phone_pretty(phone)
+    except:
+        pass
+
+    # Websites
+    website = None
+    try:
+        section_html = soup.find('section', class_='ci-websites')
+        websites_html = section_html.find_all('a', class_='pv-contact-info__contact-link')
+        for website_html in websites_html:
+            print(make_website_pretty(website_html.text))
+
+        # website = make_website_pretty(phone)
+    except:
+        pass
+
+    print(website)
+
     #
     # try:
     #     website_temp_index = find_index_in_array(html_array,
@@ -281,3 +281,4 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
 
 # get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
 get_and_save_people_information("../people-htmls/amirkabir-Greater New York City Area")
+# get_and_save_profile_html(driver, 'https://www.linkedin.com/in/ali-hosseini-93424437/', 'ali-hosseini-93424437.html')
