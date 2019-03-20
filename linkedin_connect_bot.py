@@ -47,8 +47,12 @@ def connect_to_alumni(page_url, driver):
 
             # Calculate new scroll height and compare with last scroll height
             new_height = driver.execute_script("return document.body.scrollHeight")
+
+            time.sleep(1)
             if new_height == last_height:
                 break
+            time.sleep(1)
+
             last_height = new_height
 
     driver.get(page_url)
@@ -73,7 +77,7 @@ def connect_to_alumni(page_url, driver):
             print("connected")
         except:
             print("Error while connecting.")
-        time.sleep(5)
+        time.sleep(20)
 
     random_wait()
 
