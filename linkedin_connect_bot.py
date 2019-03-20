@@ -33,11 +33,26 @@ def random_wait():
 
 def connect_to_alumni(page_url, driver):
     driver.get(page_url)
-    element = driver.find_element_by_xpath(
-        '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[1]/div/ul/li/button')
-        '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[8]/div/ul/li/button')
+    random_wait()
 
-    element.click()
+    html = driver.page_source
+    soup = bs.BeautifulSoup(html, 'lxml')
+
+    people_html = soup.find_all('li', 'org-people-profiles-module__profile-item')
+    people_number = len(people_html)
+    for i in range(1, people_number):
+        try:
+            connect_element = driver.find_element_by_xpath(
+                '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(id=i))
+            connect_element.click()
+
+            driver.find_element_by_xpath(
+                '/html/body/div[5]/div[7]/div/div[1]/div/section/div/div[2]/button[2]').click()
+            print("connected")
+        except:
+            print("Error while connecting.")
+        time.sleep(5)
+
     random_wait()
 
 
