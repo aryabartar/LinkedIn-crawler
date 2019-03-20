@@ -361,6 +361,7 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
 
 
 def get_text_information_from_html(dir_path):
+    """Used to extract raw data from all dir_path subdirectory html files. """
     dirs_list = glob.glob(dir_path + "/*/")
 
     for dir in dirs_list:
@@ -376,8 +377,8 @@ def get_text_information_from_html(dir_path):
 
 
 
-# driver = webdriver.Firefox()
-# open_linkedin(driver)
+driver = webdriver.Firefox()
+open_linkedin(driver)
 # random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
 # name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
@@ -387,8 +388,9 @@ def get_text_information_from_html(dir_path):
 
 # get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
 # get_and_save_people_information_to_csv("../people-htmls/amirkabir-Greater New York City Area")
-get_text_information_from_html("../people-htmls")
+# get_text_information_from_html("../people-htmls")
 # get_and_save_profile_html(driver, 'https://www.linkedin.com/in/ali-hosseini-93424437/', 'ali-hosseini-93424437.html')
 
 
 # get_person_information('/home/arya/PycharmProjects/LinkedInCrawler/people-htmls/amirkabir-Greater New York City Area/zahra-nazari-23002141.html')
+
