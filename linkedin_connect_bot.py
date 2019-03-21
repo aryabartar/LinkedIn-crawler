@@ -1,45 +1,8 @@
 import time
-import pickle
 import bs4 as bs
-import csv
-import glob
 
 from random import randint
-from selenium import webdriver
-
-
-def append_to_file(path, text):
-    f = open(path, "a")
-    f.write(text)
-    f.close()
-
-
-def read_file(path):
-    try:
-        f = open(path, "r")
-        text = f.read()
-        f.close()
-        return text
-
-    except Exception as e:
-        f = open(path, "w+")
-        f.close()
-        return ""
-
-
-def open_linkedin(driver):
-    def restore_cookie(driver):
-        cookies = pickle.load(open("../cookies.pkl", "rb"))
-        for cookie in cookies:
-            driver.add_cookie(cookie)
-
-    driver.get("https://www.linkedin.com/")
-    print("Opened driver")
-
-    restore_cookie(driver)
-
-    driver.get("https://www.linkedin.com/")
-    print("Set cookies.")
+from utils import append_to_file, read_file, open_linkedin
 
 
 def random_wait():
@@ -144,9 +107,7 @@ def connect_to_alumni(page_url, save_ids_path, driver):
     random_wait()
 
 
-driver = webdriver.Firefox()
-driver.maximize_window()
-open_linkedin(driver)
+driver = open_linkedin()
 connect_to_alumni(
     'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=ca%3A0&keywords=turkey',
     '../linkedin_connect_bot_data/turkey.txt',

@@ -6,8 +6,7 @@ import glob
 
 from random import randint
 from selenium import webdriver
-
-SPECIAL_CHARACTER = "/|||\\"  # This special notation is used to replace given characters
+from utils import append_to_file, read_file, write_to_file, open_linkedin
 
 
 def find_index_in_array(array, search_text):
@@ -28,41 +27,9 @@ def find_number_of_repeats(array, search_text):
     return count, indexes
 
 
-def write_to_file(path, text):
-    f = open(path, "w")
-    f.write(text)
-    f.close()
-
-
-def append_to_file(path, text):
-    f = open(path, "a")
-    f.write(text)
-    f.close()
-
-
-def read_file(path):
-    f = open(path, "r")
-    text = f.read()
-    f.close()
-    return text
-
-
 def random_wait():
     random = randint(50, 100)
     time.sleep(random)
-
-
-def open_linkedin(driver):
-    def restore_cookie(driver):
-        cookies = pickle.load(open("../cookies.pkl", "rb"))
-        for cookie in cookies:
-            driver.add_cookie(cookie)
-
-    driver.get("https://www.linkedin.com/")
-    print("Opened driver")
-    restore_cookie(driver)
-    driver.get("https://www.linkedin.com/")
-    print("Set cookies.")
 
 
 def get_amirkabir_alumni_html(driver, file_name):
@@ -373,9 +340,7 @@ def get_text_information_from_html(dir_path):
             write_to_file(text_path, raw_text)
 
 
-
-driver = webdriver.Firefox()
-open_linkedin(driver)
+driver = open_linkedin()
 # random_wait()
 # amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
 # name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
@@ -390,4 +355,3 @@ open_linkedin(driver)
 
 
 # get_person_information('/home/arya/PycharmProjects/LinkedInCrawler/people-htmls/amirkabir-Greater New York City Area/zahra-nazari-23002141.html')
-
