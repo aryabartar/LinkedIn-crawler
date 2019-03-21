@@ -29,7 +29,7 @@ def random_wait():
 
 
 def connect_to_alumni(page_url, driver):
-    def scroll_to_button():
+    def scroll_to_button(number_of_scrolls):
         SCROLL_PAUSE_TIME = 1
 
         # Get scroll height
@@ -38,31 +38,46 @@ def connect_to_alumni(page_url, driver):
         counter = 0
 
         while True:
+
             # Scroll down to bottom
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-            counter += 1
 
             # Wait to load page
             time.sleep(SCROLL_PAUSE_TIME)
 
-            # Calculate new scroll height and compare with last scroll height
-            new_height = driver.execute_script("return document.body.scrollHeight")
+            time.sleep(3)
 
-            time.sleep(1)
-            # if new_height == last_height:
-            #     break
-            time.sleep(1)
-
-            if counter == 23:
+            if counter == number_of_scrolls:
                 break
 
-            last_height = new_height
+            counter += 1
+
+    def remove_first_and_last_spaces(text):
+        # removes name spaces and \n
+        text = text.replace("\n", " ")
+        for i in range(0, len(text)):
+            if text[i] != " ":
+                break
+        text = text[i:]
+
+        for i in range(len(text) - 1, 0, -1):
+            if text[i] != " ":
+                break
+        text = text[:i + 1]
+        return text
 
     driver.get(page_url)
     random_wait()
 
-    scroll_to_button()
+    html = driver.page_source
+    soup = bs.BeautifulSoup(html, 'lxml')
+
+    alumni_number = soup.find('span', {"class": "t-20"}).text
+    alumni_number = remove_first_and_last_spaces(alumni_number)
+    scroll_number = int(alumni_number.split(' ')[0]) / 12
+    print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
+
+    scroll_to_button(scroll_number)
     random_wait()
 
     html = driver.page_source
@@ -75,6 +90,7 @@ def connect_to_alumni(page_url, driver):
             try:
                 # Notification when connecting much.
                 driver.find_element_by_class_name('ip-fuse-limit-alert__primary-action').click()
+                print("Clicked on notification button. ")
             except:
                 pass
 
