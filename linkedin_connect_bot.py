@@ -9,9 +9,6 @@ from selenium import webdriver
 
 
 def open_linkedin(driver):
-    def save_cookie(driver):
-        pickle.dump(driver.get_cookies(), open("../cookies.pkl", "wb"))
-
     def restore_cookie(driver):
         cookies = pickle.load(open("../cookies.pkl", "rb"))
         for cookie in cookies:
@@ -38,9 +35,13 @@ def connect_to_alumni(page_url, driver):
         # Get scroll height
         last_height = driver.execute_script("return document.body.scrollHeight")
 
+        counter = 0
+
         while True:
             # Scroll down to bottom
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+            counter += 1
 
             # Wait to load page
             time.sleep(SCROLL_PAUSE_TIME)
@@ -49,9 +50,12 @@ def connect_to_alumni(page_url, driver):
             new_height = driver.execute_script("return document.body.scrollHeight")
 
             time.sleep(1)
-            if new_height == last_height:
-                break
+            # if new_height == last_height:
+            #     break
             time.sleep(1)
+
+            if counter == 23:
+                break
 
             last_height = new_height
 
@@ -68,16 +72,23 @@ def connect_to_alumni(page_url, driver):
     people_number = len(people_html)
     for i in range(1, people_number):
         try:
+            try:
+                # Notification when connecting much.
+                driver.find_element_by_class_name('ip-fuse-limit-alert__primary-action').click()
+            except:
+                pass
+
             connect_element = driver.find_element_by_xpath(
                 '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(id=i))
             connect_element.click()
 
             driver.find_element_by_xpath(
                 '/html/body/div[5]/div[7]/div/div[1]/div/section/div/div[2]/button[2]').click()
+
             print("connected")
         except:
             print("Error while connecting.")
-        time.sleep(20)
+        time.sleep(5)
 
     random_wait()
 

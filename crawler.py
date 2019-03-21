@@ -53,9 +53,6 @@ def random_wait():
 
 
 def open_linkedin(driver):
-    def save_cookie(driver):
-        pickle.dump(driver.get_cookies(), open("../cookies.pkl", "wb"))
-
     def restore_cookie(driver):
         cookies = pickle.load(open("../cookies.pkl", "rb"))
         for cookie in cookies:
