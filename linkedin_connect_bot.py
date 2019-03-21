@@ -15,10 +15,16 @@ def append_to_file(path, text):
 
 
 def read_file(path):
-    f = open(path, "r")
-    text = f.read()
-    f.close()
-    return text
+    try:
+        f = open(path, "r")
+        text = f.read()
+        f.close()
+        return text
+
+    except Exception as e:
+        f = open(path, "w+")
+        f.close()
+        return ""
 
 
 def open_linkedin(driver):
@@ -37,11 +43,11 @@ def open_linkedin(driver):
 
 
 def random_wait():
-    random = randint(5, 10)
+    random = randint(3, 4)
     time.sleep(random)
 
 
-def connect_to_alumni(page_url, driver):
+def connect_to_alumni(page_url, save_ids_path, driver):
     def scroll_to_button(number_of_scrolls):
         number_of_scrolls = int(number_of_scrolls)
         counter = 0
@@ -71,12 +77,15 @@ def connect_to_alumni(page_url, driver):
         text = text[:i + 1]
         return text
 
-    def check_connected_before(file_path):
-        names_list = read_file(file_path).split("||")
+    def connected_before(file_path, id):
+        ids_list = read_file(file_path).split("||")
+        if id in ids_list:
+            return True
+        return False
 
     def get_profile_id(profile_html):
         profile_link = profile_html.find('a', {"class": "link-without-visited-state"}).get('href')
-        profile_id = profile_link.split("/")[-1]
+        profile_id = profile_link.split("/")[-2]
         return profile_id
 
     driver.get(page_url)
@@ -90,8 +99,7 @@ def connect_to_alumni(page_url, driver):
     scroll_number = int(int(alumni_number.split(' ')[0]) / 12)
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
 
-    # scroll_to_button(scroll_number)
-    scroll_to_button(4)
+    scroll_to_button(scroll_number)
     random_wait()
 
     html = driver.page_source
@@ -100,7 +108,7 @@ def connect_to_alumni(page_url, driver):
     people_html = soup.find_all('li', {"class": "org-people-profiles-module__profile-item"})
     people_number = len(people_html)
 
-    for i in range(30, people_number - 1):
+    for i in range(0, people_number - 1):
         try:
 
             try:
@@ -111,6 +119,10 @@ def connect_to_alumni(page_url, driver):
                 pass
 
             profile_id = get_profile_id(people_html[i])
+            if connected_before(save_ids_path, profile_id):
+                continue
+            else:
+                append_to_file(save_ids_path, "||{profile_id}".format(profile_id=profile_id))
 
             # Click on connect button
             driver.find_element_by_xpath(
@@ -123,18 +135,19 @@ def connect_to_alumni(page_url, driver):
             driver.find_element_by_xpath(
                 '/html/body/div[5]/div[7]/div/div[1]/div/section/div/div[2]/button[2]').click()
 
+            time.sleep(1)
             print("connected")
 
-        except:
+        except Exception as e:
             print("Error while connecting.")
 
-        time.sleep(2)
-        # random_wait()
+    random_wait()
 
 
 driver = webdriver.Firefox()
 driver.maximize_window()
 open_linkedin(driver)
 connect_to_alumni(
-    'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A0',
+    'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=ca%3A0&keywords=turkey',
+    '../linkedin_connect_bot_data/turkey.txt',
     driver)
