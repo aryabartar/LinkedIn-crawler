@@ -85,32 +85,34 @@ def connect_to_alumni(page_url, driver):
     people_number = len(people_html)
 
     for i in range(0, people_number - 1):
-        # try:
         try:
-            # Notification when connecting much.
-            driver.find_element_by_class_name('ip-fuse-limit-alert__primary-action').click()
-            print("Clicked on notification button. ")
+            try:
+                # Notification when connecting much.
+                driver.find_element_by_class_name('ip-fuse-limit-alert__primary-action').click()
+                print("Clicked on notification button. ")
+            except:
+                pass
+
+            profile_name = people_html[i]
+            print(profile_name)
+
+            # Click on connect button
+            driver.find_element_by_xpath(
+                '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
+                    id=i + 1)).click()
+
+            time.sleep(1)
+
+            # Click on ok button
+            driver.find_element_by_xpath(
+                '/html/body/div[5]/div[7]/div/div[1]/div/section/div/div[2]/button[2]').click()
+
+            print("connected")
         except:
-            pass
+            print("Error while connecting.")
 
-        profile_name = people_html[i]
-        print(profile_name)
-
-        connect_element = driver.find_element_by_xpath(
-            '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
-                id=i + 1))
-
-        connect_element.click()
-
-        driver.find_element_by_xpath(
-            '/html/body/div[5]/div[7]/div/div[1]/div/section/div/div[2]/button[2]').click()
-
-        print("connected")
-        # except:
-        #     print("Error while connecting.")
         time.sleep(2)
-
-        random_wait()
+        # random_wait()
 
 
 driver = webdriver.Firefox()
