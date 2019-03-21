@@ -82,6 +82,7 @@ def connect_to_alumni(page_url, save_ids_path, driver):
                 pass
 
             profile_id = get_profile_id(people_html[i])
+
             if connected_before(save_ids_path, profile_id):
                 continue
             else:
@@ -107,8 +108,9 @@ def connect_to_alumni(page_url, save_ids_path, driver):
     random_wait()
 
 
+link = input("Input link: ")
+data_path = input("Input data file name in linkedin_connect_bot_data folder/directory: ")
+data_path = '../linkedin_connect_bot_data/' + data_path
+
 driver = open_linkedin()
-connect_to_alumni(
-    'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=ca%3A0&keywords=turkey',
-    '../linkedin_connect_bot_data/turkey.txt',
-    driver)
+connect_to_alumni(link, data_path, driver)
