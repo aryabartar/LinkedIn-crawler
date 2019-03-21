@@ -14,6 +14,13 @@ def append_to_file(path, text):
     f.close()
 
 
+def read_file(path):
+    f = open(path, "r")
+    text = f.read()
+    f.close()
+    return text
+
+
 def open_linkedin(driver):
     def restore_cookie(driver):
         cookies = pickle.load(open("../cookies.pkl", "rb"))
@@ -64,6 +71,14 @@ def connect_to_alumni(page_url, driver):
         text = text[:i + 1]
         return text
 
+    def check_connected_before(file_path):
+        names_list = read_file(file_path).split("||")
+
+    def get_profile_id(profile_html):
+        profile_link = profile_html.find('a', {"class": "link-without-visited-state"}).get('href')
+        profile_id = profile_link.split("/")[-1]
+        return profile_id
+
     driver.get(page_url)
     random_wait()
 
@@ -76,16 +91,18 @@ def connect_to_alumni(page_url, driver):
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
 
     # scroll_to_button(scroll_number)
+    scroll_to_button(4)
     random_wait()
 
     html = driver.page_source
     soup = bs.BeautifulSoup(html, 'lxml')
 
-    people_html = soup.find_all('div', {"class": "org-people-profile-card__profile-title"})
+    people_html = soup.find_all('li', {"class": "org-people-profiles-module__profile-item"})
     people_number = len(people_html)
 
-    for i in range(0, people_number - 1):
+    for i in range(30, people_number - 1):
         try:
+
             try:
                 # Notification when connecting much.
                 driver.find_element_by_class_name('ip-fuse-limit-alert__primary-action').click()
@@ -93,8 +110,7 @@ def connect_to_alumni(page_url, driver):
             except:
                 pass
 
-            profile_name = people_html[i]
-            print(profile_name)
+            profile_id = get_profile_id(people_html[i])
 
             # Click on connect button
             driver.find_element_by_xpath(
@@ -108,6 +124,7 @@ def connect_to_alumni(page_url, driver):
                 '/html/body/div[5]/div[7]/div/div[1]/div/section/div/div[2]/button[2]').click()
 
             print("connected")
+
         except:
             print("Error while connecting.")
 
