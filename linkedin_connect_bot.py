@@ -6,12 +6,11 @@ from utils import append_to_file, read_file, open_linkedin, scroll_to_button, re
 
 
 def random_wait():
-    random = randint(3, 4)
+    random = randint(5, 10)
     time.sleep(random)
 
 
 def connect_to_alumni(page_url, save_ids_path, driver):
-
     def connected_before(file_path, id):
         ids_list = read_file(file_path).split("||")
         if id in ids_list:
@@ -54,6 +53,10 @@ def connect_to_alumni(page_url, save_ids_path, driver):
                 pass
 
             profile_id = get_profile_id(people_html[i])
+
+            driver.find_element_by_xpath(
+                '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
+                    id=i + 1))
 
             if connected_before(save_ids_path, profile_id):
                 continue

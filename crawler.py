@@ -30,7 +30,7 @@ def find_number_of_repeats(array, search_text):
 
 
 def random_wait():
-    random = randint(3, 6)
+    random = randint(5, 15)
     time.sleep(random)
 
 
@@ -347,9 +347,8 @@ if mode == '1':
     url = input("Input alumni url: ")
     amirkabir_alumni_html = get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html")
     csv_file_path = write_name_and_link_list_to_csv(primary_data_path + "/alumni_html.html")
-# 'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A8111&keywords=sweden'
+    # 'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A8111&keywords=sweden'
 
 get_and_save_profiles_html(csv_file_path, main_dir_path, driver)
 get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
 
-# get_text_information_from_html("../people-htmls")
