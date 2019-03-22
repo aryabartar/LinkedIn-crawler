@@ -28,7 +28,7 @@ def find_number_of_repeats(array, search_text):
 
 
 def random_wait():
-    random = randint(50, 100)
+    random = randint(3, 6)
     time.sleep(random)
 
 
@@ -36,11 +36,11 @@ def get_amirkabir_alumni_html(driver, file_name):
     aut_usa_url = "https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0"
     driver.get(aut_usa_url)
     finished = input("Finished crawling?")
+
     if finished == "True":
         page_resource = driver.page_source
-        f = open("alumni-htmls/" + file_name, "w")
-        f.write(page_resource)
-        f.close()
+        write_to_file("alumni-htmls/" + file_name, page_resource)
+
         return page_resource
 
 
@@ -341,8 +341,7 @@ def get_text_information_from_html(dir_path):
 
 
 driver = open_linkedin()
-# random_wait()
-# amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
+amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
 # name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
 # write_name_and_link_list_to_csv(name_and_list_array, "alumni-htmls/amirkabir-Greater New York City Area.csv")
 # get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv",

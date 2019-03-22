@@ -9,10 +9,12 @@ def open_linkedin(driver):
 
     driver.get("https://www.linkedin.com/")
     print("Opened driver")
-    input("Ready? put any button:")
+    input("Ready? input any string: ")
+
     save_cookie(driver)
+
     driver.get("https://www.linkedin.com/")
-    print("Set cookies.")
+    print("Cookies are successfully saved.")
 
 
 driver = webdriver.Firefox()

@@ -1,4 +1,5 @@
 import pickle
+import time
 
 from selenium import webdriver
 
@@ -46,3 +47,19 @@ def open_linkedin():
     print("Set cookies.")
 
     return driver
+
+
+def scroll_to_button(driver, number_of_scrolls):
+    number_of_scrolls = int(number_of_scrolls)
+    counter = 0
+
+    while True:
+        time.sleep(1)
+
+        # Scroll down to bottom
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+        if counter == number_of_scrolls:
+            break
+
+        counter += 1

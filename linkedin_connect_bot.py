@@ -2,7 +2,7 @@ import time
 import bs4 as bs
 
 from random import randint
-from utils import append_to_file, read_file, open_linkedin
+from utils import append_to_file, read_file, open_linkedin, scroll_to_button
 
 
 def random_wait():
@@ -11,21 +11,6 @@ def random_wait():
 
 
 def connect_to_alumni(page_url, save_ids_path, driver):
-    def scroll_to_button(number_of_scrolls):
-        number_of_scrolls = int(number_of_scrolls)
-        counter = 0
-
-        while True:
-            time.sleep(1)
-
-            # Scroll down to bottom
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-            if counter == number_of_scrolls:
-                break
-
-            counter += 1
-
     def remove_first_and_last_spaces(text):
         # removes name spaces and \n
         text = text.replace("\n", " ")
@@ -62,7 +47,7 @@ def connect_to_alumni(page_url, save_ids_path, driver):
     scroll_number = int(int(alumni_number.split(' ')[0]) / 12)
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
 
-    scroll_to_button(scroll_number)
+    scroll_to_button(driver, scroll_number)
     random_wait()
 
     html = driver.page_source
@@ -109,8 +94,9 @@ def connect_to_alumni(page_url, save_ids_path, driver):
 
 
 link = input("Input link: ")
-data_path = input("Input data file name in linkedin_connect_bot_data folder/directory: ")
-data_path = '../linkedin_connect_bot_data/' + data_path
+data_path = input(
+    "Input data file name in linkedin 'app-data/connect_bot_data' folder/directory (sample: sweden.txt): ")
+data_path = '../app-data/linkedin_connect_bot_data/' + data_path
 
 driver = open_linkedin()
 connect_to_alumni(link, data_path, driver)
