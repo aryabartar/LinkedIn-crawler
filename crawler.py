@@ -3,11 +3,12 @@ import pickle
 import bs4 as bs
 import csv
 import glob
+import os
 
 from random import randint
 from selenium import webdriver
 from utils import append_to_file, read_file, write_to_file, open_linkedin, scroll_to_button, \
-    remove_first_and_last_spaces
+    remove_first_and_last_spaces, make_dir
 
 
 def find_index_in_array(array, search_text):
@@ -33,7 +34,7 @@ def random_wait():
     time.sleep(random)
 
 
-def get_and_save_page_alumni_html(driver, url, file_name):
+def get_and_save_page_alumni_html(driver, url, file_path):
     """This method will open, scroll and save html file of all alumni in univesity page"""
     driver.get(url)
     time.sleep(4)
@@ -44,62 +45,57 @@ def get_and_save_page_alumni_html(driver, url, file_name):
     alumni_number = remove_first_and_last_spaces(alumni_number)
 
     scroll_number = int(int(alumni_number.split(' ')[0]) / 12)
+    print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
     scroll_to_button(driver, scroll_number)
 
     page_resource = driver.page_source
-    write_to_file("alumni-htmls/" + file_name, page_resource)
+    write_to_file(file_path, page_resource)
 
+    print("Saved alumni page to txt file.")
     return page_resource
 
 
-def write_name_and_link_list_to_csv(name_and_link_array, file_path):
-    with open(file_path, mode='w') as name_and_link_file:
+def write_name_and_link_list_to_csv(html_file_path):
+    def get_name_and_links_array(path):
+        def make_url_complete(url):
+            url = "https://www.linkedin.com" + url
+            return url
+
+        names_list = []
+        html = read_file(path)
+        soup = bs.BeautifulSoup(html, 'lxml')
+        profiles = soup.find_all('li', class_='org-people-profiles-module__profile-item')
+
+        for profile in profiles:
+            name_html = profile.find('div', class_='org-people-profile-card__profile-title')
+            # When not showing 'LinkedIn Member'
+            if name_html is not None:
+                name = name_html.text
+                name = remove_first_and_last_spaces(name)
+                url = profile.find('a', class_='link-without-visited-state ember-view').get('href', None)
+                url = make_url_complete(url)
+                names_list.append({"name": name, "url": url})
+
+        return names_list
+
+    name_and_link_array = get_name_and_links_array(html_file_path)
+    csv_file_path = html_file_path.replace(".html", ".csv")
+
+    with open(csv_file_path, mode='w') as name_and_link_file:
         employee_writer = csv.writer(name_and_link_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
         for name_and_link in name_and_link_array:
             id = name_and_link["url"].split("/")[-2]
             employee_writer.writerow([id, name_and_link["name"], name_and_link["url"]])
 
-
-def find_names_from_main_page(path):
-    def make_name_pretty(name):
-        name = name.replace("\n", " ")
-        for i in range(0, len(name)):
-            if name[i] != ' ':
-                break
-        name = name[i:]
-        for i in range(len(name) - 1, 0, -1):
-            if name[i] != ' ':
-                break
-        name = name[: i + 1]
-        return name
-
-    def make_url_complete(url):
-        url = "https://www.linkedin.com" + url
-        return url
-
-    names_list = []
-    html = read_file(path)
-    soup = bs.BeautifulSoup(html, 'lxml')
-
-    profiles = soup.find_all('li', class_='org-people-profiles-module__profile-item')
-    for profile in profiles:
-        name_html = profile.find('div', class_='org-people-profile-card__profile-title')
-        # When not showing 'LinkedIn Member'
-        if name_html is not None:
-            name = name_html.text
-            name = make_name_pretty(name)
-            url = profile.find('a', class_='link-without-visited-state ember-view').get('href', None)
-            url = make_url_complete(url)
-            names_list.append({"name": name, "url": url})
-
-    return names_list
+    return csv_file_path
 
 
 def get_and_save_profile_html(driver, link, write_to_address):
     """ Opens link page and saves FULL htm (with information in determined place."""
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
-    time.sleep(6)  # For loading entire website (skills and experience)
+    time.sleep(randint(5, 10))  # For loading entire website (skills and experience)
     page_source = driver.page_source
     write_to_file(write_to_address, page_source)
 
@@ -301,21 +297,25 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
     profiles = []
     with open(csv_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
+
         for row in csv_reader:
             profiles.append({"id": row[0], "name": row[1], "url": row[2]})
 
         for profile in profiles:
-            try:
-                fetched_profiles_id = read_file("app-data/html-fetch-list.txt").split("||")
-                if profile["id"] not in fetched_profiles_id:
-                    random_wait()
-                    get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
-                    append_to_file("app-data/html-fetch-list.txt", "||" + profile["id"])
-                    print("Successfully saved profile html.")
-                else:
-                    print("Profile html exists. still running ...")
-            except:
-                print("An error occurred while saving profile html but still running ...")
+
+            fetch_list_file_path = save_folder_path + "/html-fetch-list.txt"
+            # try:
+            fetched_profiles_id = read_file(fetch_list_file_path).split("||")
+            if profile["id"] not in fetched_profiles_id:
+                random_wait()
+                get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
+                append_to_file(fetch_list_file_path, "||" + profile["id"])
+                print("Successfully saved profile html.")
+
+            else:
+                print("Profile html exists. still running ...")
+        # except:
+        #     print("An error occurred while saving profile html but still running ...")
 
 
 def get_text_information_from_html(dir_path):
@@ -335,13 +335,13 @@ def get_text_information_from_html(dir_path):
 
 
 driver = open_linkedin()
+save_path = "../app-data/crawler/alumni/test.html"
 amirkabir_alumni_html = get_and_save_page_alumni_html(driver,
-                                                      'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0',
-                                                      "temp.html")
-# name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
-# write_name_and_link_list_to_csv(name_and_list_array, "alumni-htmls/amirkabir-Greater New York City Area.csv")
-# get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv",
-#                            "people-htmls/amirkabir-Greater New York City Area", driver)
+                                                      'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A8111&keywords=sweden',
+                                                      save_path)
+csv_file_path = write_name_and_link_list_to_csv(save_path)
+dir_path = make_dir(csv_file_path.replace(".csv", ""))
+get_and_save_profiles_html(csv_file_path, dir_path, driver)
 
 # get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
 # get_and_save_people_information_to_csv("../people-htmls/amirkabir-Greater New York City Area")

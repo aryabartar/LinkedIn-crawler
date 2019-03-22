@@ -1,5 +1,6 @@
 import pickle
 import time
+import os
 
 from selenium import webdriver
 
@@ -78,3 +79,11 @@ def remove_first_and_last_spaces(text):
             break
     text = text[:i + 1]
     return text
+
+
+def make_dir(path):
+    try:
+        os.mkdir(path)
+    except:
+        print("Saving to existing directory.")
+    return path
