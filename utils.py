@@ -85,5 +85,6 @@ def make_dir(path):
     try:
         os.mkdir(path)
     except:
-        print("Saving to existing directory.")
+        pass
+
     return path

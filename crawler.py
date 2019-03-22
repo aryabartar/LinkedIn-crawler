@@ -79,7 +79,7 @@ def write_name_and_link_list_to_csv(html_file_path):
         return names_list
 
     name_and_link_array = get_name_and_links_array(html_file_path)
-    csv_file_path = html_file_path.replace(".html", ".csv")
+    csv_file_path = html_file_path.replace("html", "csv")
 
     with open(csv_file_path, mode='w') as name_and_link_file:
         employee_writer = csv.writer(name_and_link_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -100,13 +100,13 @@ def get_and_save_profile_html(driver, link, write_to_address):
     write_to_file(write_to_address, page_source)
 
 
-def get_and_save_people_information_to_csv(dir):
+def get_and_save_people_information_to_csv(dir, csv_path):
     if not dir[-1] == "/":
         dir = dir + "/"
 
     htmls_path_list = glob.glob(dir + "*.html")
 
-    with open('../export/full-information.csv', mode='w') as profile_info_file:
+    with open(csv_path, mode='w') as profile_info_file:
         profile_info_writer = csv.writer(profile_info_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         first_row = True
@@ -303,19 +303,19 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
 
         for profile in profiles:
 
-            fetch_list_file_path = save_folder_path + "/html-fetch-list.txt"
-            # try:
-            fetched_profiles_id = read_file(fetch_list_file_path).split("||")
-            if profile["id"] not in fetched_profiles_id:
-                random_wait()
-                get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
-                append_to_file(fetch_list_file_path, "||" + profile["id"])
-                print("Successfully saved profile html.")
+            fetch_list_file_path = save_folder_path + "/html-fetch-log.txt"
+            try:
+                fetched_profiles_id = read_file(fetch_list_file_path).split("||")
+                if profile["id"] not in fetched_profiles_id:
+                    random_wait()
+                    get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
+                    append_to_file(fetch_list_file_path, "||" + profile["id"])
+                    print("Successfully saved profile html.")
 
-            else:
-                print("Profile html exists. still running ...")
-        # except:
-        #     print("An error occurred while saving profile html but still running ...")
+                else:
+                    print("Profile html exists. still running ...")
+            except:
+                print("An error occurred while saving profile html but still running ...")
 
 
 def get_text_information_from_html(dir_path):
@@ -334,19 +334,22 @@ def get_text_information_from_html(dir_path):
             write_to_file(text_path, raw_text)
 
 
+mode = input("Choose mode (1=>Full scraping, 2=>Continuing from fetching profiles): ")
+dr_name = input("Input directory name: ")
+main_dir_path = "../app-data/crawler/alumni/" + dr_name
+primary_data_path = main_dir_path + "/primary"
+
+make_dir(main_dir_path)
+make_dir(primary_data_path)
+
 driver = open_linkedin()
-save_path = "../app-data/crawler/alumni/test.html"
-amirkabir_alumni_html = get_and_save_page_alumni_html(driver,
-                                                      'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A8111&keywords=sweden',
-                                                      save_path)
-csv_file_path = write_name_and_link_list_to_csv(save_path)
-dir_path = make_dir(csv_file_path.replace(".csv", ""))
-get_and_save_profiles_html(csv_file_path, dir_path, driver)
+if mode == '1':
+    url = input("Input alumni url: ")
+    amirkabir_alumni_html = get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html")
+    csv_file_path = write_name_and_link_list_to_csv(primary_data_path + "/alumni_html.html")
+# 'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A8111&keywords=sweden'
 
-# get_person_information('../people-htmls/amirkabir-Greater New York City Area/majid-sohani.html')
-# get_and_save_people_information_to_csv("../people-htmls/amirkabir-Greater New York City Area")
+get_and_save_profiles_html(csv_file_path, main_dir_path, driver)
+get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
+
 # get_text_information_from_html("../people-htmls")
-# get_and_save_profile_html(driver, 'https://www.linkedin.com/in/ali-hosseini-93424437/', 'ali-hosseini-93424437.html')
-
-
-# get_person_information('/home/arya/PycharmProjects/LinkedInCrawler/people-htmls/amirkabir-Greater New York City Area/zahra-nazari-23002141.html')
