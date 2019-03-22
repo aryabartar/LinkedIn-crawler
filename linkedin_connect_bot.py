@@ -2,7 +2,7 @@ import time
 import bs4 as bs
 
 from random import randint
-from utils import append_to_file, read_file, open_linkedin, scroll_to_button
+from utils import append_to_file, read_file, open_linkedin, scroll_to_button, remove_first_and_last_spaces
 
 
 def random_wait():
@@ -11,19 +11,6 @@ def random_wait():
 
 
 def connect_to_alumni(page_url, save_ids_path, driver):
-    def remove_first_and_last_spaces(text):
-        # removes name spaces and \n
-        text = text.replace("\n", " ")
-        for i in range(0, len(text)):
-            if text[i] != " ":
-                break
-        text = text[i:]
-
-        for i in range(len(text) - 1, 0, -1):
-            if text[i] != " ":
-                break
-        text = text[:i + 1]
-        return text
 
     def connected_before(file_path, id):
         ids_list = read_file(file_path).split("||")

@@ -6,7 +6,8 @@ import glob
 
 from random import randint
 from selenium import webdriver
-from utils import append_to_file, read_file, write_to_file, open_linkedin
+from utils import append_to_file, read_file, write_to_file, open_linkedin, scroll_to_button, \
+    remove_first_and_last_spaces
 
 
 def find_index_in_array(array, search_text):
@@ -32,16 +33,23 @@ def random_wait():
     time.sleep(random)
 
 
-def get_amirkabir_alumni_html(driver, file_name):
-    aut_usa_url = "https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0"
-    driver.get(aut_usa_url)
-    finished = input("Finished crawling?")
+def get_and_save_page_alumni_html(driver, url, file_name):
+    """This method will open, scroll and save html file of all alumni in univesity page"""
+    driver.get(url)
+    time.sleep(4)
+    html = driver.page_source
 
-    if finished == "True":
-        page_resource = driver.page_source
-        write_to_file("alumni-htmls/" + file_name, page_resource)
+    soup = bs.BeautifulSoup(html, 'lxml')
+    alumni_number = soup.find('span', {"class": "t-20"}).text
+    alumni_number = remove_first_and_last_spaces(alumni_number)
 
-        return page_resource
+    scroll_number = int(int(alumni_number.split(' ')[0]) / 12)
+    scroll_to_button(driver, scroll_number)
+
+    page_resource = driver.page_source
+    write_to_file("alumni-htmls/" + file_name, page_resource)
+
+    return page_resource
 
 
 def write_name_and_link_list_to_csv(name_and_link_array, file_path):
@@ -119,20 +127,6 @@ def get_and_save_people_information_to_csv(dir):
 
 
 def get_person_information(html_path):
-    def remove_first_and_last_spaces(text):
-        # removes name spaces and \n
-        text = text.replace("\n", " ")
-        for i in range(0, len(text)):
-            if text[i] != " ":
-                break
-        text = text[i:]
-
-        for i in range(len(text) - 1, 0, -1):
-            if text[i] != " ":
-                break
-        text = text[:i + 1]
-        return text
-
     def make_phone_pretty(phone):
         phone = remove_first_and_last_spaces(phone)
         return phone
@@ -341,7 +335,9 @@ def get_text_information_from_html(dir_path):
 
 
 driver = open_linkedin()
-amirkabir_alumni_html = get_amirkabir_alumni_html(driver, "temp.html")
+amirkabir_alumni_html = get_and_save_page_alumni_html(driver,
+                                                      'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=us%3A0',
+                                                      "temp.html")
 # name_and_list_array = find_names_from_main_page("alumni-htmls/amirkabir-Greater New York City Area.html")
 # write_name_and_link_list_to_csv(name_and_list_array, "alumni-htmls/amirkabir-Greater New York City Area.csv")
 # get_and_save_profiles_html("alumni-htmls/amirkabir-Greater New York City Area.csv",

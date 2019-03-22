@@ -63,3 +63,18 @@ def scroll_to_button(driver, number_of_scrolls):
             break
 
         counter += 1
+
+
+def remove_first_and_last_spaces(text):
+    # removes name spaces and \n
+    text = text.replace("\n", " ")
+    for i in range(0, len(text)):
+        if text[i] != " ":
+            break
+    text = text[i:]
+
+    for i in range(len(text) - 1, 0, -1):
+        if text[i] != " ":
+            break
+    text = text[:i + 1]
+    return text
