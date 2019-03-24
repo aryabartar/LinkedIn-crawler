@@ -6,7 +6,7 @@ from utils import append_to_file, read_file, open_linkedin, scroll_to_button, re
 
 
 def random_wait():
-    random = randint(5, 10)
+    random = randint(2, 4)
     time.sleep(random)
 
 
@@ -18,7 +18,8 @@ def connect_to_alumni(page_url, save_ids_path, driver):
         return False
 
     def get_profile_id(profile_html):
-        profile_link = profile_html.find('a', {"class": "link-without-visited-state"}).get('href')
+        profile_link = profile_html.find('artdeco-entity-lockup-title', {"class": "artdeco-entity-lockup__title"}).find(
+            'a').get('href')
         profile_id = profile_link.split("/")[-2]
         return profile_id
 
@@ -44,37 +45,37 @@ def connect_to_alumni(page_url, save_ids_path, driver):
 
     for i in range(0, people_number - 1):
         try:
-
             try:
                 # Notification when connecting much.
                 driver.find_element_by_class_name('ip-fuse-limit-alert__primary-action').click()
-                print("Clicked on notification button. ")
+                print("Profile " + profile_id + " is already connected." )
             except:
                 pass
-
+            # print(people_html[i])
             profile_id = get_profile_id(people_html[i])
 
             driver.find_element_by_xpath(
-                '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
+                '/html/body/div[5]/div[5]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
                     id=i + 1))
 
             if connected_before(save_ids_path, profile_id):
+                print("This profile is already connected.")
                 continue
             else:
                 append_to_file(save_ids_path, "||{profile_id}".format(profile_id=profile_id))
 
             # Click on connect button
             driver.find_element_by_xpath(
-                '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
+                '/html/body/div[5]/div[5]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
                     id=i + 1)).click()
 
             time.sleep(1)
 
             # Click on ok button
             driver.find_element_by_xpath(
-                '/html/body/div[5]/div[7]/div/div[1]/div/section/div/div[2]/button[2]').click()
+                '/html/body/div[5]/div[6]/div/div[1]/div/section/div/div[2]/button[2]').click()
 
-            time.sleep(1)
+            random_wait()
             print("connected")
 
         except Exception as e:
