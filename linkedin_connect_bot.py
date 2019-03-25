@@ -6,7 +6,7 @@ from utils import append_to_file, read_file, open_linkedin, scroll_to_button, re
 
 
 def random_wait():
-    random = randint(2, 4)
+    random = randint(10, 45)
     time.sleep(random)
 
 
@@ -75,13 +75,12 @@ def connect_to_alumni(page_url, save_ids_path, driver):
             driver.find_element_by_xpath(
                 '/html/body/div[5]/div[6]/div/div[1]/div/section/div/div[2]/button[2]').click()
 
-            random_wait()
             print("connected")
+            random_wait()
 
         except Exception as e:
             print("Error while connecting.")
 
-    random_wait()
 
 
 link = input("Input link: ")
