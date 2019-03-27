@@ -6,7 +6,7 @@ from utils import append_to_file, read_file, open_linkedin, scroll_to_button, re
 
 
 def random_wait():
-    random = randint(2, 4)
+    random = randint(25, 54)
     time.sleep(random)
 
 
@@ -55,7 +55,7 @@ def connect_to_alumni(page_url, save_ids_path, driver):
             profile_id = get_profile_id(people_html[i])
 
             driver.find_element_by_xpath(
-                '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
+                '/html/body/div[5]/div[6]/div[3]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
                     id=i + 1))
 
             if connected_before(save_ids_path, profile_id):
@@ -66,7 +66,7 @@ def connect_to_alumni(page_url, save_ids_path, driver):
 
             # Click on connect button
             driver.find_element_by_xpath(
-                '/html/body/div[5]/div[6]/div[2]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
+                '/html/body/div[5]/div[6]/div[3]/div/div[2]/div/main/div[2]/ul/li[{id}]/div/ul/li/button'.format(
                     id=i + 1)).click()
 
             time.sleep(1)
