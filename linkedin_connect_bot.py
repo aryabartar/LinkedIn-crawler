@@ -6,7 +6,7 @@ from utils import append_to_file, read_file, open_linkedin, scroll_to_button, re
 
 
 def random_wait():
-    random = randint(20, 55)
+    random = randint(2, 4)
     time.sleep(random)
 
 
@@ -31,7 +31,7 @@ def connect_to_alumni(page_url, save_ids_path, driver):
 
     alumni_number = soup.find('span', {"class": "t-20"}).text
     alumni_number = remove_first_and_last_spaces(alumni_number)
-    scroll_number = int(int(alumni_number.split(' ')[0]) / 12)
+    scroll_number = int(int(alumni_number.split(' ')[0].replace(",", "")) / 12)
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
 
     scroll_to_button(driver, scroll_number)
@@ -80,6 +80,8 @@ def connect_to_alumni(page_url, save_ids_path, driver):
 
         except Exception as e:
             print("Error while connecting.")
+
+    print("Finished")
 
 
 link = input("Input link: ")
