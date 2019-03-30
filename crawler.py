@@ -11,6 +11,11 @@ from utils import append_to_file, read_file, write_to_file, open_linkedin, scrol
     remove_first_and_last_spaces, make_dir
 
 
+def random_wait():
+    random = randint(2, 3)
+    time.sleep(random)
+
+
 def find_index_in_array(array, search_text):
     for element in array:
         if search_text in element:
@@ -27,11 +32,6 @@ def find_number_of_repeats(array, search_text):
             indexes.append(i)
 
     return count, indexes
-
-
-def random_wait():
-    random = randint(5, 15)
-    time.sleep(random)
 
 
 def get_and_save_page_alumni_html(driver, url, file_path):
@@ -95,6 +95,7 @@ def get_and_save_profile_html(driver, link, write_to_address):
     """ Opens link page and saves FULL htm (with information in determined place."""
     link += "detail/contact-info/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BbOq%2BEFlwTxiy1KFi%2FKpHGw%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_profile_view_base-contact_see_more"
     driver.get(link)
+    scroll_to_button(driver, 2)
     time.sleep(randint(5, 10))  # For loading entire website (skills and experience)
     page_source = driver.page_source
     write_to_file(write_to_address, page_source.encode("utf-8"), is_binary=True)
@@ -224,7 +225,7 @@ def get_person_information(html_path):
                 date_str = None
                 try:
                     dates = soup.find('p', class_='pv-entity__dates').find_all('time')
-                    temp_str += "Date: " + dates[0].text + "-" + dates[1].text
+                    temp_str += "Date: " + dates[0].text + "-" + dates[1].text.replace("'", "")
                 except:
                     pass
 
@@ -251,6 +252,7 @@ def get_person_information(html_path):
             experience_section_html = soup.find('section', class_='experience-section')
             experiences_html = experience_section_html.find_all('div', class_='pv-entity__position-group-pager')
             experiences = []
+
             for experience_html in experiences_html:
                 temp_experience_str = ""
                 title = experience_html.find('h3', {'class': ['t-16', 't-black', 't-bold']}).text
@@ -264,7 +266,9 @@ def get_person_information(html_path):
                 temp_experience_str = "Title: " + title + " | Company: " + company_name
                 experiences.append(temp_experience_str)
         except:
-            experiences = None
+            pass
+
+        return experiences
 
     html = read_file(html_path)
     soup = bs.BeautifulSoup(html, 'lxml')
@@ -286,10 +290,11 @@ def get_person_information(html_path):
         "email": email,
         "phone": phone,
         "websites": websites,
-        "universities": universities,
         "skills": skills,
+        "universities": universities,
         "experiences": experiences,
     }
+
     return information_dict
 
 
@@ -299,7 +304,11 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
         csv_reader = csv.reader(csv_file, delimiter=',')
 
         for row in csv_reader:
-            profiles.append({"id": row[0], "name": row[1], "url": row[2]})
+            try:
+                profiles.append({"id": row[0], "name": row[1], "url": row[2]})
+            except:
+                # When row is empty(When all members are not connectible)
+                pass
 
         for profile in profiles:
 
@@ -353,3 +362,5 @@ if mode == '1':
 get_and_save_profiles_html(csv_file_path, main_dir_path, driver)
 get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
 print("Done")
+
+# print(get_person_information('/home/arya/PycharmProjects/LinkedInCrawler/app-data/crawler/alumni/kja/sahar-samimi.html'))
