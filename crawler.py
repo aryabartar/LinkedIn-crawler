@@ -44,12 +44,12 @@ def get_and_save_page_alumni_html(driver, url, file_path):
     alumni_number = soup.find('span', {"class": "t-20"}).text
     alumni_number = remove_first_and_last_spaces(alumni_number)
 
-    scroll_number = int(int(alumni_number.split(' ')[0]) / 12)
+    scroll_number = int(int(alumni_number.split(' ')[0].replace(',', '')) / 12)
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
     scroll_to_button(driver, scroll_number)
 
     page_resource = driver.page_source
-    write_to_file(file_path, page_resource)
+    write_to_file(file_path, page_resource.encode("utf-8"), is_binary=True)
 
     print("Saved alumni page to txt file.")
     return page_resource
@@ -97,7 +97,7 @@ def get_and_save_profile_html(driver, link, write_to_address):
     driver.get(link)
     time.sleep(randint(5, 10))  # For loading entire website (skills and experience)
     page_source = driver.page_source
-    write_to_file(write_to_address, page_source)
+    write_to_file(write_to_address, page_source.encode("utf-8"), is_binary=True)
 
 
 def get_and_save_people_information_to_csv(dir, csv_path):
@@ -309,7 +309,7 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
                 if profile["id"] not in fetched_profiles_id:
                     random_wait()
                     get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
-                    append_to_file(fetch_list_file_path, "||" + profile["id"])
+                    append_to_file(fetch_list_file_path, "||" + profile["id"], is_binary=True)
                     print("Successfully saved profile html.")
 
                 else:
@@ -331,7 +331,7 @@ def get_text_information_from_html(dir_path):
             raw_text = soup.text
             text_path = html_path.replace(".html", ".txt")
             raw_text = raw_text.replace("\n", "")
-            write_to_file(text_path, raw_text)
+            write_to_file(text_path, raw_text, is_binary=True)
 
 
 mode = input("Choose mode (1=>Full scraping, 2=>Continuing from fetching profiles): ")
@@ -351,4 +351,4 @@ if mode == '1':
 
 get_and_save_profiles_html(csv_file_path, main_dir_path, driver)
 get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
-
+print("Done")
