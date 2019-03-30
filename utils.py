@@ -5,16 +5,13 @@ import os
 from selenium import webdriver
 
 
-def append_to_file(path, text, is_binary=False):
-    if is_binary:
-        f = open(path, "ab")
-    else:
-        f = open(path, "a")
+def append_to_file(path, text):
+    f = open(path, "a")
     f.write(text)
     f.close()
 
 
-def read_file(path, is_binary=False):
+def read_file(path):
     try:
         f = open(path, "r")
         text = f.read()

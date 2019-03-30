@@ -304,12 +304,13 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
         for profile in profiles:
 
             fetch_list_file_path = save_folder_path + "/html-fetch-log.txt"
+
             try:
                 fetched_profiles_id = read_file(fetch_list_file_path).split("||")
                 if profile["id"] not in fetched_profiles_id:
                     random_wait()
                     get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
-                    append_to_file(fetch_list_file_path, "||" + profile["id"], is_binary=True)
+                    append_to_file(fetch_list_file_path, "||" + profile["id"])
                     print("Successfully saved profile html.")
 
                 else:
@@ -334,7 +335,7 @@ def get_text_information_from_html(dir_path):
             write_to_file(text_path, raw_text, is_binary=True)
 
 
-mode = input("Choose mode (1=>Full scraping, 2=>Continuing from fetching profiles): ")
+mode = input("Choose mode (1=>Full scraping, 2=>Continue from fetching profiles): ")
 dr_name = input("Input directory name: ")
 main_dir_path = "../app-data/crawler/alumni/" + dr_name
 primary_data_path = main_dir_path + "/primary"
