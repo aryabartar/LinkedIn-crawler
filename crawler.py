@@ -45,7 +45,7 @@ def get_and_save_page_alumni_html(driver, url, file_path, slow_scroll=False):
 
     scroll_number = int(int(alumni_number.split(' ')[0].replace(',', '')) / 12)
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
-    scroll_to_button(driver, scroll_number , slow_scroll)
+    scroll_to_button(driver, scroll_number, slow_scroll)
 
     page_resource = driver.page_source
     write_to_file(file_path, page_resource.encode("utf-8"), is_binary=True)
@@ -351,23 +351,26 @@ primary_data_path = main_dir_path + "/primary"
 make_dir(main_dir_path)
 make_dir(primary_data_path)
 
-
-if mode == '3':
-    get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
-elif mode=='4':
-    driver = open_linkedin()
-    url = input("Input alumni url: ")
-    get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html" , slow_scroll=True)
-
-elif mode == '1':
+if mode == '1':
     driver = open_linkedin()
     url = input("Input alumni url: ")
     amirkabir_alumni_html = get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html")
     csv_file_path = write_name_and_link_list_to_csv(primary_data_path + "/alumni_html.html")
-    # 'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A8111&keywords=sweden'
-
     get_and_save_profiles_html(csv_file_path, main_dir_path, driver)
     get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
-    print("Done")
 
-# print(get_person_information('/home/arya/PycharmProjects/LinkedInCrawler/app-data/crawler/alumni/kja/sahar-samimi.html'))
+elif mode == '2':
+    driver = open_linkedin()
+    get_and_save_profiles_html(primary_data_path + "/alumni_csv.csv", main_dir_path, driver)
+    get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
+
+elif mode == '3':
+    get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
+
+elif mode == '4':
+    driver = open_linkedin()
+    url = input("Input alumni url: ")
+    get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html")
+    write_name_and_link_list_to_csv(primary_data_path + "/alumni_html.html")
+
+print("Done")
