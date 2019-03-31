@@ -6,13 +6,12 @@ import glob
 import os
 
 from random import randint
-from selenium import webdriver
 from utils import append_to_file, read_file, write_to_file, open_linkedin, scroll_to_button, \
     remove_first_and_last_spaces, make_dir
 
 
 def random_wait():
-    random = randint(2, 3)
+    random = randint(8, 20)
     time.sleep(random)
 
 
@@ -34,7 +33,7 @@ def find_number_of_repeats(array, search_text):
     return count, indexes
 
 
-def get_and_save_page_alumni_html(driver, url, file_path):
+def get_and_save_page_alumni_html(driver, url, file_path, slow_scroll=False):
     """This method will open, scroll and save html file of all alumni in univesity page"""
     driver.get(url)
     time.sleep(4)
@@ -46,7 +45,7 @@ def get_and_save_page_alumni_html(driver, url, file_path):
 
     scroll_number = int(int(alumni_number.split(' ')[0].replace(',', '')) / 12)
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
-    scroll_to_button(driver, scroll_number)
+    scroll_to_button(driver, scroll_number , slow_scroll)
 
     page_resource = driver.page_source
     write_to_file(file_path, page_resource.encode("utf-8"), is_binary=True)
@@ -344,7 +343,7 @@ def get_text_information_from_html(dir_path):
             write_to_file(text_path, raw_text, is_binary=True)
 
 
-mode = input("Choose mode (1=>Full scraping, 2=>Continue from fetching profiles): ")
+mode = input("Choose mode (1=>Full scraping, 2=>Continue from fetching profiles, 3=>Making final report): ")
 dr_name = input("Input directory name: ")
 main_dir_path = "../app-data/crawler/alumni/" + dr_name
 primary_data_path = main_dir_path + "/primary"
@@ -352,15 +351,23 @@ primary_data_path = main_dir_path + "/primary"
 make_dir(main_dir_path)
 make_dir(primary_data_path)
 
-driver = open_linkedin()
-if mode == '1':
+
+if mode == '3':
+    get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
+elif mode=='4':
+    driver = open_linkedin()
+    url = input("Input alumni url: ")
+    get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html" , slow_scroll=True)
+
+elif mode == '1':
+    driver = open_linkedin()
     url = input("Input alumni url: ")
     amirkabir_alumni_html = get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html")
     csv_file_path = write_name_and_link_list_to_csv(primary_data_path + "/alumni_html.html")
     # 'https://www.linkedin.com/school/amirkabir-university-of-technology---tehran-polytechnic/people/?facetGeoRegion=se%3A8111&keywords=sweden'
 
-get_and_save_profiles_html(csv_file_path, main_dir_path, driver)
-get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
-print("Done")
+    get_and_save_profiles_html(csv_file_path, main_dir_path, driver)
+    get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
+    print("Done")
 
 # print(get_person_information('/home/arya/PycharmProjects/LinkedInCrawler/app-data/crawler/alumni/kja/sahar-samimi.html'))

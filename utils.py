@@ -1,6 +1,7 @@
 import pickle
 import time
 import os
+from random import randint
 
 from selenium import webdriver
 
@@ -53,11 +54,13 @@ def open_linkedin():
     return driver
 
 
-def scroll_to_button(driver, number_of_scrolls):
+def scroll_to_button(driver, number_of_scrolls, slow_scroll = False):
     number_of_scrolls = int(number_of_scrolls)
     counter = 0
 
     while True:
+        if slow_scroll :
+            time.sleep(randint(10, 28))
         time.sleep(1)
 
         # Scroll down to bottom
