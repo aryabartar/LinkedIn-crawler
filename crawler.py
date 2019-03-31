@@ -97,6 +97,8 @@ def get_and_save_profile_html(driver, link, write_to_address):
     scroll_to_button(driver, 2)
     time.sleep(randint(5, 10))  # For loading entire website (skills and experience)
     page_source = driver.page_source
+    if "Join to view full profiles for free" in page_source:
+        raise Exception("Logged out. Please login.")
     write_to_file(write_to_address, page_source.encode("utf-8"), is_binary=True)
 
 
@@ -343,7 +345,7 @@ def get_text_information_from_html(dir_path):
             write_to_file(text_path, raw_text, is_binary=True)
 
 
-mode = input("Choose mode (1=>Full scraping, 2=>Continue from fetching profiles, 3=>Making final report): ")
+mode = input("Choose mode (1, 2, 3, 4): ")
 dr_name = input("Input directory name: ")
 main_dir_path = "../app-data/crawler/alumni/" + dr_name
 primary_data_path = main_dir_path + "/primary"
