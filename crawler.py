@@ -309,7 +309,8 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
         htmls_path_list = glob.glob(path + "/*.aryatml")
         fetched_ids = []
         for path in htmls_path_list:
-            file_name = path.replace('.aryatml', '').split("/")[-1]
+            file_name = path.replace('.aryatml', '').split("\\")[-1] # For windows
+            # file_name = path.replace('.aryatml', '').split("/")[-1] # For linux
             fetched_ids.append(file_name)
         return fetched_ids
 
