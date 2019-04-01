@@ -9,7 +9,7 @@ from utils import append_to_file, read_file, write_to_file, open_linkedin, scrol
 
 
 def random_wait():
-    random = randint(2, 3)
+    random = randint(8, 13)
     time.sleep(random)
 
 
@@ -300,6 +300,14 @@ def get_person_information(html_path):
 
 
 def get_and_save_profiles_html(csv_path, save_folder_path, driver):
+    def get_fetched_profiles_id(path):
+        htmls_path_list = glob.glob(path + "/*.aryatml")
+        fetched_ids = []
+        for path in htmls_path_list:
+            file_name = path.replace('.aryatml', '').split("/")[-1]
+            fetched_ids.append(file_name)
+        return fetched_ids
+
     profiles = []
     with open(csv_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -312,16 +320,13 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
                 pass
 
         for profile in profiles:
-
-            fetch_list_file_path = save_folder_path + "/html-fetch-log.txt"
+            fetched_ids = get_fetched_profiles_id(save_folder_path)
 
             try:
-                fetched_profiles_id = read_file(fetch_list_file_path).split("||")
-                if profile["id"] not in fetched_profiles_id:
+                if profile["id"] not in fetched_ids:
                     random_wait()
                     get_and_save_profile_html(driver, profile["url"],
                                               save_folder_path + "/" + profile["id"] + ".aryatml")
-                    append_to_file(fetch_list_file_path, "||" + profile["id"])
                     print("Successfully saved profile html.")
 
                 else:
