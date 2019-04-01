@@ -32,7 +32,7 @@ def write_to_file(path, text, is_binary=False):
         f.close()
 
     else:
-        f = open(path, "w")
+        f = open(path, "w+")
         f.write(text)
         f.close()
 

@@ -121,6 +121,8 @@ def get_and_save_people_information_to_csv(dir, csv_path):
                 first_row = False
             profile_info_writer.writerow(list(info_dict.values()))
 
+        profile_info_file.close()
+
 
 def get_person_information(html_path):
     def make_phone_pretty(phone):
@@ -363,7 +365,6 @@ if mode == '1':
 elif mode == '2':
     driver = open_linkedin()
     get_and_save_profiles_html(primary_data_path + "/alumni_csv.csv", main_dir_path, driver)
-    get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
 
 elif mode == '3':
     get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
