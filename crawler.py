@@ -9,7 +9,7 @@ from utils import append_to_file, read_file, write_to_file, open_linkedin, scrol
 
 
 def random_wait():
-    random = randint(8, 13)
+    random = randint(4, 8)
     time.sleep(random)
 
 
@@ -111,15 +111,20 @@ def get_and_save_people_information_to_csv(dir, csv_path):
         first_row = True
 
         for path in htmls_path_list:
-            info_dict = get_person_information(path)
+            try:
+                info_dict = get_person_information(path)
 
-            if info_dict.get('id', None) is None:
-                continue
+                if info_dict.get('id', None) is None:
+                    continue
 
-            if first_row:
-                profile_info_writer.writerow(list(info_dict.keys()))
-                first_row = False
-            profile_info_writer.writerow(list(info_dict.values()))
+                if first_row:
+                    profile_info_writer.writerow(list(info_dict.keys()))
+                    first_row = False
+                profile_info_writer.writerow(list(info_dict.values()))
+            
+            except:
+                print("One profile missed. Still running ... :D")
+                pass
 
         profile_info_file.close()
 
