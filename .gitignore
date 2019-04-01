@@ -5,3 +5,4 @@ geckodriver.log
 people-htmls/
 app-data/
 alumni-htmls/
+__pycache__
