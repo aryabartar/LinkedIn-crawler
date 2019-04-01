@@ -14,15 +14,13 @@ def append_to_file(path, text):
 
 def read_file(path):
     try:
-        f = open(path, "r")
+        f = open(path, "r", encoding="utf-8")
         text = f.read()
         f.close()
         return text
 
     except Exception as e:
-        f = open(path, "w+")
-        f.close()
-        return ""
+        print(e)
 
 
 def write_to_file(path, text, is_binary=False):
