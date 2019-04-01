@@ -1,9 +1,7 @@
 import time
-import pickle
 import bs4 as bs
 import csv
 import glob
-import os
 
 from random import randint
 from utils import append_to_file, read_file, write_to_file, open_linkedin, scroll_to_button, \
@@ -11,7 +9,7 @@ from utils import append_to_file, read_file, write_to_file, open_linkedin, scrol
 
 
 def random_wait():
-    random = randint(8, 20)
+    random = randint(2, 3)
     time.sleep(random)
 
 
@@ -47,11 +45,11 @@ def get_and_save_page_alumni_html(driver, url, file_path, slow_scroll=False):
     print("Scroll Number: ", scroll_number, " |Alumni number: ", alumni_number)
     scroll_to_button(driver, scroll_number, slow_scroll)
 
-    page_resource = driver.page_source
-    write_to_file(file_path, page_resource.encode("utf-8"), is_binary=True)
+    page_source = driver.page_source
+    write_to_file(file_path, page_source.encode("utf-8"), is_binary=True)
 
     print("Saved alumni page to txt file.")
-    return page_resource
+    return page_source
 
 
 def write_name_and_link_list_to_csv(html_file_path):
@@ -106,12 +104,12 @@ def get_and_save_people_information_to_csv(dir, csv_path):
     if not dir[-1] == "/":
         dir = dir + "/"
 
-    htmls_path_list = glob.glob(dir + "*.html")
+    htmls_path_list = glob.glob(dir + "*.aryatml")
 
     with open(csv_path, mode='w') as profile_info_file:
         profile_info_writer = csv.writer(profile_info_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
         first_row = True
+
         for path in htmls_path_list:
             info_dict = get_person_information(path)
 
@@ -319,7 +317,8 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
                 fetched_profiles_id = read_file(fetch_list_file_path).split("||")
                 if profile["id"] not in fetched_profiles_id:
                     random_wait()
-                    get_and_save_profile_html(driver, profile["url"], save_folder_path + "/" + profile["id"] + ".html")
+                    get_and_save_profile_html(driver, profile["url"],
+                                              save_folder_path + "/" + profile["id"] + ".aryatml")
                     append_to_file(fetch_list_file_path, "||" + profile["id"])
                     print("Successfully saved profile html.")
 
@@ -370,8 +369,8 @@ elif mode == '3':
     get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
 
 elif mode == '4':
-    driver = open_linkedin()
     url = input("Input alumni url: ")
+    driver = open_linkedin()
     get_and_save_page_alumni_html(driver, url, primary_data_path + "/alumni_html.html")
     write_name_and_link_list_to_csv(primary_data_path + "/alumni_html.html")
 

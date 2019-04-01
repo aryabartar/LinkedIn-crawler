@@ -28,10 +28,13 @@ def read_file(path):
 def write_to_file(path, text, is_binary=False):
     if is_binary:
         f = open(path, "wb")
+        f.write(text)
+        f.close()
+
     else:
         f = open(path, "w")
-    f.write(text)
-    f.close()
+        f.write(text)
+        f.close()
 
 
 def open_linkedin():
@@ -54,12 +57,12 @@ def open_linkedin():
     return driver
 
 
-def scroll_to_button(driver, number_of_scrolls, slow_scroll = False):
+def scroll_to_button(driver, number_of_scrolls, slow_scroll=False):
     number_of_scrolls = int(number_of_scrolls)
     counter = 0
 
     while True:
-        if slow_scroll :
+        if slow_scroll:
             time.sleep(randint(10, 28))
         time.sleep(1)
 
