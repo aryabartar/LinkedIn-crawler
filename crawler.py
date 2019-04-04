@@ -101,6 +101,29 @@ def get_and_save_profile_html(driver, link, write_to_address):
     write_to_file(write_to_address, page_source.encode("utf-8"), is_binary=True)
 
 
+def save_information_in_json(dir, save_path):
+    if not dir[-1] == "/":
+        dir = dir + "/"
+
+    htmls_path_list = glob.glob(dir + "*.aryatml")
+
+    with open(save_path, mode='w') as profile_info_file:
+        for path in htmls_path_list:
+            try:
+                info_dict = get_person_information(path)
+
+                if info_dict.get('id', None) is None:
+                    continue
+
+                json.dump(info_dict, profile_info_file)
+                profile_info_file.write("\n")
+
+            except:
+                print("One profile missed. Still running ... :D")
+
+        profile_info_file.close()
+
+
 def get_and_save_people_information_to_csv(dir, csv_path):
     if not dir[-1] == "/":
         dir = dir + "/"
@@ -125,7 +148,6 @@ def get_and_save_people_information_to_csv(dir, csv_path):
 
             except:
                 print("One profile missed. Still running ... :D")
-                pass
 
         profile_info_file.close()
 
@@ -241,10 +263,10 @@ def get_person_information(html_path):
                     pass
 
                 universities.append(university_info)
-        
+
         except:
             universities = None
-        
+
         return universities
 
     def get_skills(soup):
@@ -267,17 +289,19 @@ def get_person_information(html_path):
             experiences = []
 
             for experience_html in experiences_html:
-                temp_experience_str = ""
+                experience_info = {"title": None, "company": None}
                 title = experience_html.find('h3', {'class': ['t-16', 't-black', 't-bold']}).text
                 company_name = experience_html.find('h4', {'class': ['t-16', 't-black', 't-normal']}).text
 
                 company_name_array = company_name.split("\n")
                 if not company_name_array[1] == 'Company Name':
                     raise Exception("Invalid company format!")
-
                 company_name = company_name_array[2]
-                temp_experience_str = "Title: " + title + " | Company: " + company_name
-                experiences.append(temp_experience_str)
+
+                experience_info['title'] = title
+                experience_info['company'] = company_name
+
+                experiences.append(experience_info)
         except:
             pass
 
@@ -317,7 +341,7 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
         fetched_ids = []
         for path in htmls_path_list:
             # file_name = path.replace('.aryatml', '').split("\\")[-1]  # For windows
-            file_name = path.replace('.aryatml', '').split("/")[-1] # For linux
+            file_name = path.replace('.aryatml', '').split("/")[-1]  # For linux
             fetched_ids.append(file_name)
         return fetched_ids
 
@@ -386,6 +410,7 @@ elif mode == '2':
 
 elif mode == '3':
     get_and_save_people_information_to_csv(main_dir_path, primary_data_path + "/FINAL.csv")
+    save_information_in_json(main_dir_path, primary_data_path + "/FINAL-JSON.json")
 
 elif mode == '4':
     url = input("Input alumni url: ")
