@@ -2,6 +2,7 @@ import time
 import bs4 as bs
 import csv
 import glob
+import json
 
 from random import randint
 from utils import append_to_file, read_file, write_to_file, open_linkedin, scroll_to_button, \
@@ -9,7 +10,7 @@ from utils import append_to_file, read_file, write_to_file, open_linkedin, scrol
 
 
 def random_wait():
-    random = randint(4, 8)
+    random = randint(8, 13)
     time.sleep(random)
 
 
@@ -48,7 +49,7 @@ def get_and_save_page_alumni_html(driver, url, file_path, slow_scroll=False):
     page_source = driver.page_source
     write_to_file(file_path, page_source.encode("utf-8"), is_binary=True)
 
-    print("Saved alumni page to txt file.")
+    print("Saved alumni page in txt file.")
     return page_source
 
 
@@ -121,7 +122,7 @@ def get_and_save_people_information_to_csv(dir, csv_path):
                     profile_info_writer.writerow(list(info_dict.keys()))
                     first_row = False
                 profile_info_writer.writerow(list(info_dict.values()))
-            
+
             except:
                 print("One profile missed. Still running ... :D")
                 pass
@@ -208,36 +209,42 @@ def get_person_information(html_path):
             university_section_html = soup.find('section', class_='education-section')
             universities_html = university_section_html.find_all('li', class_='pv-profile-section__sortable-item')
             universities = []
+
             for university in universities_html:
-                temp_str = ""
+                university_info = {"name": None, "degree": None, "field of study": None, "date": None}
 
                 university_name = university.find('h3', class_='pv-entity__school-name').text
-                temp_str = temp_str + "University name: " + remove_first_and_last_spaces(university_name) + " || "
+                clean_university_name = remove_first_and_last_spaces(university_name)
+                university_info["name"] = clean_university_name
 
                 try:
                     degree = university.find('p', class_='pv-entity__secondary-title').find('span',
                                                                                             class_='pv-entity__comma-item').text
-                    temp_str += "Degree: " + remove_first_and_last_spaces(degree) + " || "
+                    clean_degree = remove_first_and_last_spaces(degree)
+                    university_info["degree"] = clean_degree
                 except:
                     pass
 
                 try:
                     field_of_study = university.find('p', class_='pv-entity__fos').find('span',
                                                                                         class_='pv-entity__comma-item').text
-                    temp_str += "Field Of Study: " + remove_first_and_last_spaces(field_of_study) + " || "
+                    clean_field_of_study = remove_first_and_last_spaces(field_of_study)
+                    university_info["field of study"] = clean_field_of_study
                 except:
                     pass
 
-                date_str = None
                 try:
                     dates = soup.find('p', class_='pv-entity__dates').find_all('time')
-                    temp_str += "Date: " + dates[0].text + "-" + dates[1].text.replace("'", "")
+                    date_str = dates[0].text + "-" + dates[1].text.replace("'", "")
+                    university_info["date"] = date_str
                 except:
                     pass
 
-                universities.append(temp_str)
+                universities.append(university_info)
+        
         except:
             universities = None
+        
         return universities
 
     def get_skills(soup):
@@ -309,8 +316,8 @@ def get_and_save_profiles_html(csv_path, save_folder_path, driver):
         htmls_path_list = glob.glob(path + "/*.aryatml")
         fetched_ids = []
         for path in htmls_path_list:
-            file_name = path.replace('.aryatml', '').split("\\")[-1] # For windows
-            # file_name = path.replace('.aryatml', '').split("/")[-1] # For linux
+            # file_name = path.replace('.aryatml', '').split("\\")[-1]  # For windows
+            file_name = path.replace('.aryatml', '').split("/")[-1] # For linux
             fetched_ids.append(file_name)
         return fetched_ids
 
