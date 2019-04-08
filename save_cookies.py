@@ -17,5 +17,5 @@ def open_linkedin(driver):
     print("Cookies are successfully saved.")
 
 
-driver = webdriver.Firefox()
+driver = webdriver.Firefox(executable_path='./geckodriver')
 open_linkedin(driver)

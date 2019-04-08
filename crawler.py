@@ -13,7 +13,6 @@ def random_wait():
     random = randint(8, 13)
     time.sleep(random)
 
-
 def find_index_in_array(array, search_text):
     for element in array:
         if search_text in element:
@@ -127,7 +126,6 @@ def save_information_in_json(dir, save_path):
 def get_and_save_people_information_to_csv(dir, csv_path):
     if not dir[-1] == "/":
         dir = dir + "/"
-
     htmls_path_list = glob.glob(dir + "*.aryatml")
 
     with open(csv_path, mode='w') as profile_info_file:

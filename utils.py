@@ -41,7 +41,7 @@ def open_linkedin():
         for cookie in cookies:
             driver.add_cookie(cookie)
 
-    driver = webdriver.Firefox()
+    driver = webdriver.Firefox(executable_path='./geckodriver')
     driver.maximize_window()
 
     driver.get("https://www.linkedin.com/")
